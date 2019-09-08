@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>Uusiehdokas.html</welcome-file>
+    <welcome-file>Uusiehdokas.jsp</welcome-file>
+    <welcome-file>Poistaehdokas.html</welcome-file>
+    <welcome-file>Poistaehdokas.jsp</welcome-file>
+    <welcome-file>Muokkaaehdokas.html</welcome-file>
+    <welcome-file>Muokkaaehdokas.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>Vaalikone</servlet-name>
+    <servlet-class>vaalikone.Vaalikone</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Uusiehdokas</servlet-name>
+    <servlet-class>vaalikone.Uusiehdokas</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Poistaehdokas</servlet-name>
+    <servlet-class>vaalikone.Poistaehdokas</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Muokkaaehdokas</servlet-name>
+    <servlet-class>vaalikone.Muokkaaehdokas</servlet-class>
+  </servlet>
+    <servlet>
+  	<servlet-name>jersey-servlet</servlet-name>
+  	<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+  	<init-param>
+  		<param-name>jersey.config.server.provider.packages</param-name>
+  		<param-value>rest</param-value>
+  	</init-param>
+  </servlet>
+<!--   <servlet-mapping>
+    <servlet-name>Uusiehdokas</servlet-name>
+    <url-pattern>/Uusiehdokas</url-pattern>
+  </servlet-mapping> -->
+
+  <servlet-mapping>
+    <servlet-name>Vaalikone</servlet-name>
+    <url-pattern>/Vaalikone</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>jersey-servlet</servlet-name>
+  	<url-pattern>/vaalikonejparest/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Poistaehdokas</servlet-name>
+    <url-pattern>/Poistaehdokas</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Muokkaaehdokas</servlet-name>
+    <url-pattern>/Muokkaaehdokas</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+</web-app>

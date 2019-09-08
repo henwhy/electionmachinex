@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ehdokkaan luominen</title>
+</head>
+<!--
+onload tapahtuu, kun koko sivu on ladattu, siis voidaan kutsua dokumentin lopussa olevaa funktiota
+<body onload='luepenantaulujaksoittain();'>
+-->
+<body>
+	<h1>Lisää uusi ehdokas</h1>
+		<form id="ehdokaslomake" action="#" onsubmit="return false;">
+			Sukunimi: <input type="text" name="suku" id="rsuku"><br>
+			Etunimi: <input type="text" name="etu" id="retu"><br>
+			Puolue: <input type="text" name="puol" id="rpuol"><br>
+			Kotipaikkakunta: <input type="text" name="koti" id="rkoti"><br>
+			Ikä: <input type="text" name="ika" id="rika"><br> 
+			Miksi: <input type="text" name="miks" id="rmiks"><br> 
+			Mitä: <input type="text" name="mita" id="rmita"><br> 
+			Ammatti: <input type="text" name="amma" id="ramma"><br>
+		</form>
+		<button onclick="lahetaehdokas();">Tallenna tiedot</button>
+		<button id="indexBtn">Etusivulle</button>
+</body>
+<!--
+Javascript voi sijaita html-sivulla missä tahansa, kunhan muistaa, että muuttujien/aliohjelmien tulee olle esiteltynä enne käyttöä
+-->
+<script>
+	var btn = document.getElementById('indexBtn');
+	btn.addEventListener('click', function() {
+		document.location.href = 'index.html';
+	});
+
+	function lueyksiriista() {
+
+		var xhttp = new XMLHttpRequest();
+		/* var xhttp = new XDomainRequest(); */
+
+		if ("withCredentials" in xhttp) {
+			xhttp
+					.open(
+							"GET",
+							"./vaalikonejparest/vaalikonejpaservice/lisaaehdokas",
+							true);
+		} else if (typeof XDomainRequest != "undefined") {
+			xhttp = new XDomainRequest();
+			xhttp
+					.open(
+							"GET",
+							"./vaalikonejparest/vaalikonejpaservice/lisaaehdokas",
+							true);
+		}
+		if (!xhttp) {
+			alert('CORS not supported!');
+			return;
+		}
+
+		xhttp.onload = function() {
+			document.getElementById("uusin").innerHTML = this.responseText;
+		};
+
+		/*      xhttp.onreadystatechange = function() {
+		 if (this.readyState == 4 && this.status == 200) {
+		 document.getElementById("uusin").innerHTML = this.responseText;
+		 }
+		 }; */
+
+		/* xhttp.withCredentials = true; */
+
+		/* xhttp.open("GET", "http://127.0.0.1:8080/riistajparest/riistajpaservice/riista", true); */
+		xhttp.send();
+
+	}
+
+	function lahetaehdokas() {
+
+		var lom = document.getElementById("ehdokaslomake")
+		var ehdokas = new Object();
+		ehdokas.sukunimi = lom.suku.value;
+		ehdokas.etunimi = lom.etu.value;
+		ehdokas.puolue = lom.puol.value;
+		ehdokas.kotipaikkakunta = lom.koti.value;
+		ehdokas.ika = lom.ika.value;
+		ehdokas.miksiEduskuntaan = lom.miks.value;
+		ehdokas.mitaAsioitaHaluatEdistaa = lom.mita.value;
+		ehdokas.ammatti = lom.amma.value;
+
+		var jsonEhdokas = JSON.stringify(ehdokas);
+		/*      document.getElementById("yksia").innerHTML = jsonElain;
+		 document.getElementById("yksib").innerHTML = JSON.stringify(jsonElain); */
+
+		var xhttp = new XMLHttpRequest();
+
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("debug").innerHTML = this.responseText;
+				var palautettu = JSON.parse(this.responseText);
+				/*              document.getElementById("osina").innerHTML = "ID="
+				 + palautettu.id + " koko=" + palautettu.paino
+				 + " Rotu=" + palautettu.laji; */
+			}
+		};
+
+		xhttp.open("POST",
+				"./vaalikonejparest/vaalikonejpaservice/lisaaehdokas", true);
+		//      xhttp.setRequestHeader("Content-type","text/plain");
+		xhttp.setRequestHeader("Content-type", "application/json");
+		//      xmlhttp.setRequestHeader("Data-type","json");
+		xhttp.send(jsonEhdokas);
+
+	}
+</script>
+
+
+</html>
