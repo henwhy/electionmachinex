@@ -3,7 +3,7 @@ package classes;
 
 import java.io.Serializable;
 
-import java.sql.Connection;
+import java.sql.*;
 import java.util.logging.Logger;
 
 /**
@@ -151,9 +151,45 @@ public class Candidate implements Serializable {
 
     private static final Logger LOG = Logger.getLogger(Candidate.class.getName());
 
+    /**
+     * Save method of object
+     * @param conn Connection to database
+     * @return Saved object or null
+     */
+    public Candidate save(Connection conn) {
+        try {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(
+                        "insert into CANDIDATES(LASTNAME, FIRSTNAME, POLITICAL_PARTY, CITY, AGE, WHY_QUESTION, IMPROVE_QUESTION, PROFESSION) values(?,?,?,?,?,?,?,?)",
+                        Statement.RETURN_GENERATED_KEYS
+                );
+                pstmt.setString(1, this.lastName);
+                pstmt.setString(2, this.firstName);
+                pstmt.setString(3, this.politicalParty);
+                pstmt.setString(4, this.city);
+                pstmt.setInt(5, this.age);
+                pstmt.setString(6, this.whyQuestion);
+                pstmt.setString(7, this.improveQuestion);
+                pstmt.setString(8, this.profession);
 
-    public Candidate saveObject(Connection conn) {
-    //todo saving object
-         return new Candidate();
+                pstmt.executeUpdate();
+
+                //getting last inserted id
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    this.setCandidateId((int) rs.getLong(1));
+                }
+
+                conn.close();
+
+                return this;
+            } else {
+                System.out.println("No connection!!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

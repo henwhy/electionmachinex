@@ -1,6 +1,7 @@
 package classes;
 
 import java.io.Serializable;
+import java.sql.*;
 import java.util.logging.Logger;
 
 
@@ -39,8 +40,6 @@ public class AnswerPK implements Serializable {
         this.questionId = questionId;
     }
 
-
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -72,4 +71,32 @@ public class AnswerPK implements Serializable {
 
     private static final Logger LOG = Logger.getLogger(AnswerPK.class.getName());
 
+    /**
+     * Save method of object
+     * @param conn Connection to database
+     * @return Saved object or null
+     */
+    public AnswerPK save(Connection conn) {
+        try {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(
+                        "insert into ANSWERPK(candidateId, questionId) values(?,?)"
+                );
+                pstmt.setInt(1, this.candidateId);
+                pstmt.setInt(2, this.questionId);
+
+                pstmt.executeUpdate();
+
+                conn.close();
+
+                return this;
+            } else {
+                System.out.println("No connection!!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

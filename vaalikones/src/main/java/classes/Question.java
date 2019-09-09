@@ -1,6 +1,7 @@
 package classes;
 
 import java.io.Serializable;
+import java.sql.*;
 import java.util.logging.Logger;
 
 
@@ -66,5 +67,40 @@ public class Question implements Serializable {
     }
 
     private static final Logger LOG = Logger.getLogger(Question.class.getName());
+
+    /**
+     * Save method of object
+     * @param conn Connection to database
+     * @return Saved object or null
+     */
+    public Question save(Connection conn) {
+        try {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(
+                        "insert into QUESTIONS(QUESTION) values(?)",
+                        Statement.RETURN_GENERATED_KEYS
+                );
+                pstmt.setString(1, this.question);
+
+                pstmt.executeUpdate();
+
+                //getting last inserted id
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    this.setQuestionId((int) rs.getLong(1));
+                }
+
+                conn.close();
+
+                return this;
+            } else {
+                System.out.println("No connection!!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 }
