@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.util.logging.Logger;
 
 /**
- * @author Jonne
+ * @author Bocceli
  */
 
 public class Candidate implements Serializable {
@@ -136,7 +136,17 @@ public class Candidate implements Serializable {
 
     @Override
     public String toString() {
-        return "persist.Ehdokkaat[ ehdokasId=" + candidateId + " ]";
+        return "Candidate{" +
+                "candidateId=" + candidateId +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", politicalParty='" + politicalParty + '\'' +
+                ", city='" + city + '\'' +
+                ", age=" + age +
+                ", whyQuestion='" + whyQuestion + '\'' +
+                ", improveQuestion='" + improveQuestion + '\'' +
+                ", profession='" + profession + '\'' +
+                '}';
     }
 
     private static final Logger LOG = Logger.getLogger(Candidate.class.getName());
