@@ -1,68 +1,63 @@
 package electionmachine;
+
 import javax.persistence.*;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import persist.*;
-import vaalikone.Uusi;
-import vaalikone.Enti;
+import classes.Candidate;
+
 /**
  * Servlet implementation class newCandidate
  */
-@WebServlet(name="newCandidate", urlPatterns = {"/newCandidate"})
+@WebServlet(name = "newCandidate", urlPatterns = {"/newCandidate"})
 public class newCandidate extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+    private static final long serialVersionUID = 1L;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
 
-	
     public newCandidate() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		 EntityManager em = Enti.getEm();
-		 EntityTransaction entitytransaction = em.getTransaction();
-		 entitytransaction.begin();
-		 Candidate cand = new Candidate();
-		 String s = request.getParameter("lastname");
-		 String e = request.getParameter("firstname"); 
-		 String p = request.getParameter("political_party"); 
-		 String k = request.getParameter("city"); 
-		 int i = Integer.parseInt(request.getParameter("age")); 
-		 String m = request.getParameter("why_question"); 
-		 String mi = request.getParameter("improve_question"); 
-		 String a = request.getParameter("profession");
-       
-       cand.setLastname(s);
-       cand.setFirstname(e);
-       cand.setPoliticalParty(p);
-       cand.setCity(k);
-       cand.setAge(i);
-       cand.setWhyQuestion(m);
-       cand.setImproveQuestion(mi);
-       cand.setProfession(a);
-       em.persist(cand);
-       em.getTransaction().commit();
-       response.sendRedirect(request.getContextPath()+"newCandidate.jsp");
-		 
-		 
-		
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        EntityManager em = Enti.getEm();
+        EntityTransaction entitytransaction = em.getTransaction();
+        entitytransaction.begin();
+        Candidate cand = new Candidate();
+        String s = request.getParameter("lastname");
+        String e = request.getParameter("firstname");
+        String p = request.getParameter("political_party");
+        String k = request.getParameter("city");
+        int i = Integer.parseInt(request.getParameter("age"));
+        String m = request.getParameter("why_question");
+        String mi = request.getParameter("improve_question");
+        String a = request.getParameter("profession");
+
+        cand.setLastName(s);
+        cand.setFirstName(e);
+        cand.setPoliticalParty(p);
+        cand.setCity(k);
+        cand.setAge(i);
+        cand.setWhyQuestion(m);
+        cand.setImproveQuestion(mi);
+        cand.setProfession(a);
+        em.persist(cand);
+        em.getTransaction().commit();
+        response.sendRedirect(request.getContextPath() + "newCandidate.jsp");
+
+
 //		// This class can be used to initialize the database connection 
 //		
 //		try { 
@@ -106,19 +101,20 @@ public class newCandidate extends HttpServlet {
 //        catch (Exception e) { 
 //            e.printStackTrace(); 
 //        } 
- } 
+    }
 //
 //	
 //
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-		// This class can be used to initialize the database connection 
-		
-				
-	}
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        doGet(request, response);
+        // This class can be used to initialize the database connection
+
+
+    }
 
 }

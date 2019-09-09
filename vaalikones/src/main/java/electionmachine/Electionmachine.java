@@ -5,6 +5,10 @@
  */
 package electionmachine;
 
+import classes.Answer;
+import classes.Candidate;
+import classes.Question;
+
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
 
@@ -25,12 +29,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.google.appengine.api.utils.SystemProperty;
-
-import persist.Ehdokkaat;
-import persist.Kysymykset;
-import persist.Vastaukset;
 
 /**
  * Electionmachine-servlet, vastaa vaalikoneen varsinaisesta toiminnallisuudesta
@@ -119,7 +117,7 @@ public class Electionmachine extends HttpServlet {
                             "SELECT k FROM Questions k WHERE k.questionId=?1");
                     q.setParameter(1, question_id);
                     //Lue haluttu kysymys listaan
-                    List<Questions> questionList = q.getResultList();
+                    List<Question> questionList = q.getResultList();
                     request.setAttribute("questions", questionList);
                     request.getRequestDispatcher("/answer.jsp")
                             .forward(request, response);
@@ -153,10 +151,10 @@ public class Electionmachine extends HttpServlet {
                     Query qV = em.createQuery(
                             "SELECT v FROM Answers v WHERE v.answersPk.candidateId=?1");
                     qV.setParameter(1, i);
-                    List<Answers> answerList = qV.getResultList();
+                    List<Answer> answerList = qV.getResultList();
 
                     //iteroi vastauslista läpi
-                    for (Answers eAnswer : answerList) {
+                    for (Answer eAnswer : answerList) {
                         int points;
 
                         //hae käyttäjän ehdokaskohtaiset pisteet
@@ -165,7 +163,7 @@ public class Electionmachine extends HttpServlet {
                         //laske oman ja ehdokkaan vastauksen perusteella pisteet 
                         points += countPoints(usr.getAnswer(i), eAnswer.getAnswer());
 
-                        logger.log(Level.INFO, "eID: {0} / k: {1} / kV: {2} / eV: {3} / p: {4}", new Object[]{i, eAnswer.getAnswers().getQuestionId(), usr.getAnswer(i), eAnswer.getAnswer(), points});
+                        //logger.log(Level.INFO, "eID: {0} / k: {1} / kV: {2} / eV: {3} / p: {4}", new Object[]{i, eAnswer.getAnswers().getQuestionId(), usr.getAnswer(i), eAnswer.getAnswer(), points});
                         usr.addPoints(i, points);
                     }
 
@@ -181,30 +179,30 @@ public class Electionmachine extends HttpServlet {
         if ("searchForCandidate".equals(strFunc)) {
             //luetaan url-parametristä "top-listan järjestysnumero". Jos ei määritelty, haetaan PARAS vaihtoehto.
             String strNumber = request.getParameter("number");
-            Integer Number = 0;
+            Integer number = 0;
             if (strNumber != null) {
                 number = Integer.parseInt(strNumber);
             }
 
             //Lue käyttäjälle sopivimmat ehdokkaat väliaikaiseen Tuple-listaan.
-            List<Tuple<Integer, Integer>> tpl = usr.searchForBestCandidate();
+            List<Tuple<Integer, Integer>> tpl = usr.getBestCandidates();
 
             //hae määritetyn ehdokkaan tiedot
             Query q = em.createQuery(
                     "SELECT e FROM candidates e WHERE e.candidateId=?1");
             q.setParameter(1, tpl.get(number).candidateId);
-            List<Candidates> bestCandidate = q.getResultList();
+            List<Candidate> bestCandidate = q.getResultList();
 
             //hae ko. ehdokkaan vastaukset
             q = em.createQuery(
                     "SELECT v FROM answers v WHERE v.answerPk.candidateId=?1");
             q.setParameter(1, tpl.get(number).candidateId);
-            List<Answers> bestCandidateAnswers = q.getResultList();
+            List<Answer> bestCandidateAnswers = q.getResultList();
 
             //hae kaikki kysymykset
             q = em.createQuery(
                     "SELECT k FROM questions k");
-            List<Questions> allQuestions = q.getResultList();
+            List<Question> allQuestions = q.getResultList();
             
             //ohjaa tiedot tulosten esityssivulle
             request.setAttribute("allQuestions", allQuestions);

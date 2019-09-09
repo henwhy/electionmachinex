@@ -3,28 +3,28 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.jsp</welcome-file>
-    <welcome-file>Uusiehdokas.html</welcome-file>
-    <welcome-file>Uusiehdokas.jsp</welcome-file>
-    <welcome-file>Poistaehdokas.html</welcome-file>
-    <welcome-file>Poistaehdokas.jsp</welcome-file>
-    <welcome-file>Muokkaaehdokas.html</welcome-file>
-    <welcome-file>Muokkaaehdokas.jsp</welcome-file>
+    <welcome-file>newCandidate.html</welcome-file>
+    <welcome-file>newCandidate.jsp</welcome-file>
+    <welcome-file>removeCandidate.html</welcome-file>
+    <welcome-file>removeCandidate.jsp</welcome-file>
+    <welcome-file>editCandidate.html</welcome-file>
+    <welcome-file>editCandidate.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
-    <servlet-name>Vaalikone</servlet-name>
-    <servlet-class>vaalikone.Vaalikone</servlet-class>
+    <servlet-name>Electionmachine</servlet-name>
+    <servlet-class>electionmachine.Electionmachine</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>Uusiehdokas</servlet-name>
-    <servlet-class>vaalikone.Uusiehdokas</servlet-class>
+    <servlet-name>newCandidate</servlet-name>
+    <servlet-class>electionmachine.newCandidate</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>Poistaehdokas</servlet-name>
-    <servlet-class>vaalikone.Poistaehdokas</servlet-class>
+    <servlet-name>deleteCandidate</servlet-name>
+    <servlet-class>electionmachine.deleteCandidate</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>Muokkaaehdokas</servlet-name>
-    <servlet-class>vaalikone.Muokkaaehdokas</servlet-class>
+    <servlet-name>editCandidate</servlet-name>
+    <servlet-class>electionmachine.editCandidate</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>jersey-servlet</servlet-name>
@@ -35,20 +35,24 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Vaalikone</servlet-name>
-    <url-pattern>/Vaalikone</url-pattern>
+    <servlet-name>Electionmachine</servlet-name>
+    <url-pattern>/election-machine</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>jersey-servlet</servlet-name>
-    <url-pattern>/vaalikonejparest/*</url-pattern>
+    <url-pattern>/rest/election-machine/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>Poistaehdokas</servlet-name>
-    <url-pattern>/Poistaehdokas</url-pattern>
+    <servlet-name>newCandidate</servlet-name>
+    <url-pattern>/new-candidate</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>Muokkaaehdokas</servlet-name>
-    <url-pattern>/Muokkaaehdokas</url-pattern>
+    <servlet-name>deleteCandidate</servlet-name>
+    <url-pattern>/delete-candidate</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>editCandidate</servlet-name>
+    <url-pattern>/edit-candidate</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>
