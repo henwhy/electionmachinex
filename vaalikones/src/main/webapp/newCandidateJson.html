@@ -2,26 +2,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Ehdokkaan luominen</title>
+<title>Add new candidate</title>
 </head>
 <!--
 onload tapahtuu, kun koko sivu on ladattu, siis voidaan kutsua dokumentin lopussa olevaa funktiota
 <body onload='luepenantaulujaksoittain();'>
 -->
 <body>
-	<h1>Lisää uusi ehdokas</h1>
-		<form id="ehdokaslomake" action="#" onsubmit="return false;">
-			Sukunimi: <input type="text" name="suku" id="rsuku"><br>
-			Etunimi: <input type="text" name="etu" id="retu"><br>
-			Puolue: <input type="text" name="puol" id="rpuol"><br>
-			Kotipaikkakunta: <input type="text" name="koti" id="rkoti"><br>
-			Ikä: <input type="text" name="ika" id="rika"><br> 
-			Miksi: <input type="text" name="miks" id="rmiks"><br> 
-			Mitä: <input type="text" name="mita" id="rmita"><br> 
-			Ammatti: <input type="text" name="amma" id="ramma"><br>
+	<h1>Add new candidate</h1>
+		<form id="candidateform" action="#" onsubmit="return false;">
+			Lastname: <input type="text" name="lastname" id="form_lastname"><br>
+			Firstname: <input type="text" name="firstname" id="form_firstname"><br>
+			Political party: <input type="text" name="politicalparty" id="form_politicalparty"><br>
+			City: <input type="text" name="city" id="form_city"><br>
+			Age: <input type="text" name="age" id="form_age"><br> 
+			Why: <input type="text" name="whyquestion" id="form_whyquestion"><br> 
+			Improve: <input type="text" name="improvequestion" id="form_improvequestion"><br> 
+			Profession: <input type="text" name="profession" id="form_profession"><br>
 		</form>
-		<button onclick="lahetaehdokas();">Tallenna tiedot</button>
-		<button id="indexBtn">Etusivulle</button>
+		<button onclick="sendCandidate();">Save information</button>
+		<button id="indexBtn">Home page</button>
 </body>
 <!--
 Javascript voi sijaita html-sivulla missä tahansa, kunhan muistaa, että muuttujien/aliohjelmien tulee olle esiteltynä enne käyttöä
@@ -32,7 +32,7 @@ Javascript voi sijaita html-sivulla missä tahansa, kunhan muistaa, että muuttu
 		document.location.href = 'index.html';
 	});
 
-	function lueyksiriista() {
+	function getCandidate() {
 
 		var xhttp = new XMLHttpRequest();
 		/* var xhttp = new XDomainRequest(); */
@@ -41,14 +41,14 @@ Javascript voi sijaita html-sivulla missä tahansa, kunhan muistaa, että muuttu
 			xhttp
 					.open(
 							"GET",
-							"./vaalikonejparest/vaalikonejpaservice/lisaaehdokas",
+							"./vaalikonejparest/vaalikonejpaservice/addcandidate",
 							true);
 		} else if (typeof XDomainRequest != "undefined") {
 			xhttp = new XDomainRequest();
 			xhttp
 					.open(
 							"GET",
-							"./vaalikonejparest/vaalikonejpaservice/lisaaehdokas",
+							"./vaalikonejparest/vaalikonejpaservice/addcandidate",
 							true);
 		}
 		if (!xhttp) {
@@ -73,20 +73,20 @@ Javascript voi sijaita html-sivulla missä tahansa, kunhan muistaa, että muuttu
 
 	}
 
-	function lahetaehdokas() {
+	function sendcandidate() {
 
-		var lom = document.getElementById("ehdokaslomake")
-		var ehdokas = new Object();
-		ehdokas.sukunimi = lom.suku.value;
-		ehdokas.etunimi = lom.etu.value;
-		ehdokas.puolue = lom.puol.value;
-		ehdokas.kotipaikkakunta = lom.koti.value;
-		ehdokas.ika = lom.ika.value;
-		ehdokas.miksiEduskuntaan = lom.miks.value;
-		ehdokas.mitaAsioitaHaluatEdistaa = lom.mita.value;
-		ehdokas.ammatti = lom.amma.value;
+		var form = document.getElementById("candidateform")
+		var candidate = new Object();
+		candidate.lastname = form.form_lastname.value;
+		candidate.firstname = form.form_firstname.value;
+		candidate.politicalparty = form.form_politicalparty.value;
+		candidate.city = form.form_city.value;
+		candidate.age = form.form_age.value;
+		candidate.whyQuestion = form.form_whyquestion.value;
+		candidate.improveQuestion = form.form_improvequestion.value;
+		candidate.profession = form.form_profession.value;
 
-		var jsonEhdokas = JSON.stringify(ehdokas);
+		var jsonCandidate = JSON.stringify(candidate);
 		/*      document.getElementById("yksia").innerHTML = jsonElain;
 		 document.getElementById("yksib").innerHTML = JSON.stringify(jsonElain); */
 
@@ -95,7 +95,7 @@ Javascript voi sijaita html-sivulla missä tahansa, kunhan muistaa, että muuttu
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				document.getElementById("debug").innerHTML = this.responseText;
-				var palautettu = JSON.parse(this.responseText);
+				var returned = JSON.parse(this.responseText);
 				/*              document.getElementById("osina").innerHTML = "ID="
 				 + palautettu.id + " koko=" + palautettu.paino
 				 + " Rotu=" + palautettu.laji; */
@@ -107,7 +107,7 @@ Javascript voi sijaita html-sivulla missä tahansa, kunhan muistaa, että muuttu
 		//      xhttp.setRequestHeader("Content-type","text/plain");
 		xhttp.setRequestHeader("Content-type", "application/json");
 		//      xmlhttp.setRequestHeader("Data-type","json");
-		xhttp.send(jsonEhdokas);
+		xhttp.send(jsonCandidate);
 
 	}
 </script>

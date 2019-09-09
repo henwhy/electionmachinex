@@ -13,37 +13,37 @@
     <!-- Give Servlet reference to the form as an instances  
     GET and POST services can be according to the problem statement-->
     <div class="ehdokas">
-    <form action="./Uusiehdokas" method="post"> 
-        <p>Sukunimi:</p>  
-        <input type="text" name="sukunimi"/> 
+    <form action="./newCandidate)" method="post"> 
+        <p>Lastname:</p>  
+        <input type="text" name="lastname"/> 
         <br/><br/><br/>
         <br/> 
-        <p>Etunimi:</p>  
-        <input type="text" name="etunimi"/> 
+        <p>Firstname:</p>  
+        <input type="text" name="firstname"/> 
         <br/><br/><br/>
         <br/> 
-        <p>Puolue:</p>  
-        <input type="text" name="puolue"/> 
+        <p>Political party:</p>  
+        <input type="text" name="politicalparty"/> 
         <br/><br/><br/>
         <br/> 
-        <p>Kotipaikkakunta:</p>  
-        <input type="text" name="kotipaikkakunta"/> 
+        <p>City:</p>  
+        <input type="text" name="city"/> 
         <br/><br/><br/>
         <br/> 
-        <p>Ik‰:</p>  
-        <input type="number" name="ika"/> 
+        <p>Age:</p>  
+        <input type="number" name="age"/> 
         <br/><br/><br/>
         <br/> 
-        <p>Miksi eduskuntaan:</p>  
-        <input type="text" name="miksi_eduskuntaan"/> 
+        <p>Why join the parliament:</p>  
+        <input type="text" name="whyquestion"/> 
         <br/><br/><br/>
         <br/> 
-        <p>Mit‰ asioita haluat edist‰‰:</p>  
-        <input type="text" name="mita_asioita_haluat_edistaa"/> 
+        <p>What to improve:</p>  
+        <input type="text" name="improvequestion"/> 
         <br/><br/><br/>
         <br/> 
-        <p>Ammatti:</p>  
-        <input type="text" name="ammatti"/> 
+        <p>Profession:</p>  
+        <input type="text" name="profession"/> 
         <br/><br/><br/> 
         <input type="submit"/> 
     </form>
