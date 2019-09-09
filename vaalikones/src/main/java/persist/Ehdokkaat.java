@@ -5,8 +5,11 @@
  */
 package persist;
 
+import db.DbConnection;
+
 import java.io.Serializable;
 
+import java.sql.Connection;
 import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -20,31 +23,30 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
  * @author Jonne
  */
 @Entity
 @Table(name = "EHDOKKAAT")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Ehdokkaat.findAll", query = "SELECT e FROM Ehdokkaat e"),
-    @NamedQuery(name = "Ehdokkaat.findByEhdokasId", query = "SELECT e FROM Ehdokkaat e WHERE e.ehdokasId = :ehdokasId"),
-    @NamedQuery(name = "Ehdokkaat.findBySukunimi", query = "SELECT e FROM Ehdokkaat e WHERE e.sukunimi = :sukunimi"),
-    @NamedQuery(name = "Ehdokkaat.findByEtunimi", query = "SELECT e FROM Ehdokkaat e WHERE e.etunimi = :etunimi"),
-    @NamedQuery(name = "Ehdokkaat.findByPuolue", query = "SELECT e FROM Ehdokkaat e WHERE e.puolue = :puolue"),
-    @NamedQuery(name = "Ehdokkaat.findByKotipaikkakunta", query = "SELECT e FROM Ehdokkaat e WHERE e.kotipaikkakunta = :kotipaikkakunta"),
-    @NamedQuery(name = "Ehdokkaat.findByIk\u00e4", query = "SELECT e FROM Ehdokkaat e WHERE e.ika = :ika"),
-    @NamedQuery(name = "Ehdokkaat.findByMiksiEduskuntaan", query = "SELECT e FROM Ehdokkaat e WHERE e.miksiEduskuntaan = :miksiEduskuntaan"),
-    @NamedQuery(name = "Ehdokkaat.findByMitaAsioitaHaluatEdistaa", query = "SELECT e FROM Ehdokkaat e WHERE e.mitaAsioitaHaluatEdistaa = :mitaAsioitaHaluatEdistaa"),
-    @NamedQuery(name = "Ehdokkaat.findByAmmatti", query = "SELECT e FROM Ehdokkaat e WHERE e.ammatti = :ammatti")})
+        @NamedQuery(name = "Ehdokkaat.findAll", query = "SELECT e FROM Ehdokkaat e"),
+        @NamedQuery(name = "Ehdokkaat.findByEhdokasId", query = "SELECT e FROM Ehdokkaat e WHERE e.ehdokasId = :ehdokasId"),
+        @NamedQuery(name = "Ehdokkaat.findBySukunimi", query = "SELECT e FROM Ehdokkaat e WHERE e.sukunimi = :sukunimi"),
+        @NamedQuery(name = "Ehdokkaat.findByEtunimi", query = "SELECT e FROM Ehdokkaat e WHERE e.etunimi = :etunimi"),
+        @NamedQuery(name = "Ehdokkaat.findByPuolue", query = "SELECT e FROM Ehdokkaat e WHERE e.puolue = :puolue"),
+        @NamedQuery(name = "Ehdokkaat.findByKotipaikkakunta", query = "SELECT e FROM Ehdokkaat e WHERE e.kotipaikkakunta = :kotipaikkakunta"),
+        @NamedQuery(name = "Ehdokkaat.findByIk\u00e4", query = "SELECT e FROM Ehdokkaat e WHERE e.ika = :ika"),
+        @NamedQuery(name = "Ehdokkaat.findByMiksiEduskuntaan", query = "SELECT e FROM Ehdokkaat e WHERE e.miksiEduskuntaan = :miksiEduskuntaan"),
+        @NamedQuery(name = "Ehdokkaat.findByMitaAsioitaHaluatEdistaa", query = "SELECT e FROM Ehdokkaat e WHERE e.mitaAsioitaHaluatEdistaa = :mitaAsioitaHaluatEdistaa"),
+        @NamedQuery(name = "Ehdokkaat.findByAmmatti", query = "SELECT e FROM Ehdokkaat e WHERE e.ammatti = :ammatti")})
 public class Ehdokkaat implements Serializable {
-	
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "EHDOKAS_ID")
-	public Integer ehdokasId;
+    public Integer ehdokasId;
     @Size(max = 25)
     @Column(name = "SUKUNIMI")
     private String sukunimi;
@@ -76,7 +78,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @param ehdokasId
      */
     public Ehdokkaat(Integer ehdokasId) {
@@ -84,7 +85,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @return ehdokkaan id-numero
      */
     public Integer getEhdokasId() {
@@ -92,7 +92,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @param ehdokasId ehdokkaan id-numero
      */
     public void setEhdokasId(Integer ehdokasId) {
@@ -100,7 +99,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public String getSukunimi() {
@@ -108,7 +106,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @param sukunimi
      */
     public void setSukunimi(String sukunimi) {
@@ -116,7 +113,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public String getEtunimi() {
@@ -124,7 +120,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @param etunimi
      */
     public void setEtunimi(String etunimi) {
@@ -132,7 +127,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public String getPuolue() {
@@ -140,7 +134,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @param puolue
      */
     public void setPuolue(String puolue) {
@@ -148,7 +141,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public String getKotipaikkakunta() {
@@ -156,7 +148,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @param kotipaikkakunta
      */
     public void setKotipaikkakunta(String kotipaikkakunta) {
@@ -164,7 +155,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public Integer getIka() {
@@ -172,7 +162,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @param ikä
      */
     public void setIka(Integer ika) {
@@ -180,7 +169,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public String getMiksiEduskuntaan() {
@@ -188,7 +176,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @param miksiEduskuntaan
      */
     public void setMiksiEduskuntaan(String miksiEduskuntaan) {
@@ -196,7 +183,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public String getMitaAsioitaHaluatEdistaa() {
@@ -204,7 +190,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @param mitaAsioitaHaluatEdistaa
      */
     public void setMitaAsioitaHaluatEdistaa(String mitaAsioitaHaluatEdistaa) {
@@ -212,7 +197,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public String getAmmatti() {
@@ -220,7 +204,6 @@ public class Ehdokkaat implements Serializable {
     }
 
     /**
-     *
      * @param ammatti
      */
     public void setAmmatti(String ammatti) {
@@ -248,6 +231,11 @@ public class Ehdokkaat implements Serializable {
     public String toString() {
         return "persist.Ehdokkaat[ ehdokasId=" + ehdokasId + " ]";
     }
+
     private static final Logger LOG = Logger.getLogger(Ehdokkaat.class.getName());
-    
+
+
+    public boolean saveObject(Connection conn) {
+
+    }
 }

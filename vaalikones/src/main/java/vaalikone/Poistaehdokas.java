@@ -9,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import db.DbConnection;
 import vaalikone.Uusi;
 
 /**
@@ -33,8 +35,9 @@ public class Poistaehdokas extends HttpServlet {
 		try { 
 			  
             // Initialize the database 
-            Connection con = Uusi.initializeDatabase(); 
-  
+            //Connection con = Uusi.initializeDatabase();
+            Connection con = DbConnection.getConnection();
+
             // Create a SQL query to insert data into demo table 
             // demo table consists of two columns, so two '?' is used 
             PreparedStatement st = con 
