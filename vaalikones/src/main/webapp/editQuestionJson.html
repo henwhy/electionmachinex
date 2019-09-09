@@ -2,27 +2,27 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Kysymyksen muokkaus</title>
+<title>Edit question</title>
 </head>
 <body>
 	<div id="container">
-	<h1>Muokkaa kysymystä</h1>
+	<h1>Edit question</h1>
 	
 	<p id="debug">Debug here</p>
 	
-	<form id="kysymyslomake" onsubmit="return false;">
-		KysymysId: <input type="text" name="kid" id="rkysymysid"><br>
-		Muokkaa kysymystä:<br> 
-		<textarea name="kmuok" rows="4" cols="50" placeholder="Lisää kysymysid ylempään boksiin ja muokkaa kysymystäsi tässä"></textarea>
+	<form id="questionForm" onsubmit="return false;">
+		QustionId: <input type="text" name="kid" id="form_questionId"><br>
+		Edit question:<br> 
+		<textarea name="form_edit" rows="4" cols="50" id="form_question" placeholder="Choose the question ID above, and edit it here"></textarea>
 	</form>
 	
-	<button onclick="muokkaakys();">Tallenna muokkaus</button>
+	<button onclick="editquestion();">Save changes</button>
 	
-	<button onclick="poistakysymys();">Poista kysymys</button>
+	<button onclick="removequestion();">Remove question</button>
 	
-	<button id="indexBtn">Etusivulle</button>
+	<button id="indexBtn">Home page</button>
 	
-<table id="taulukko">
+<table id="table">
 
 </table>
 </div>
@@ -33,18 +33,18 @@ btn.addEventListener('click', function() {
 	 document.location.href = 'index.html';
 });
 
-function lueKaikki(){
+function readAll(){
 	var xhttp = new XMLHttpRequest();
 
      xhttp.onreadystatechange = function() {
 		 if (this.readyState == 4 && this.status == 200) {
-			 var palautettu = JSON.parse(this.responseText);
+			 var returned = JSON.parse(this.responseText);
 			 var z="";
-			 for (i=0;i<palautettu.length;i++){
-				 var y=palautettu[i];
-				 z=z+"<tr><td>"+y.kysymysId+"<td>"+y.kysymys;
+			 for (i=0;i<returned.length;i++){
+				 var returnedTable=returned[i];
+				 z=z+"<tr><td>"+y.questionId+"<td>"+returnedTable.question;
 			 }
-			document.getElementById("taulukko").innerHTML = z;
+			document.getElementById("table").innerHTML = z;
 			 
 		 }
 	 };
@@ -58,16 +58,16 @@ function lueKaikki(){
 	xhttp.send();
 	
 }
-lueKaikki();
+readAll();
 
-function muokkaakys() {
+function editQuestions() {
   	 
-	var lom=document.getElementById("kysymyslomake");
-    var kysymys = new Object();
-	kysymys.kysymysId = lom.kid.value;
-    kysymys.kysymys = lom.kmuok.value;
+	var form=document.getElementById("questionForm");
+    var question = new Object();
+    question.questionId = form.form_questionId.value;
+    question.question = form.form_question.value;
 
-    var jsonKysymys = JSON.stringify(kysymys);
+    var jsonQuestion = JSON.stringify(question);
 /*      document.getElementById("yksia").innerHTML = jsonElain;
     document.getElementById("yksib").innerHTML = JSON.stringify(jsonElain); */
 
@@ -75,7 +75,7 @@ function muokkaakys() {
 
      xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("yksiriista").innerHTML = this.responseText;
+            document.getElementById("ihavenoideawhatimdoing").innerHTML = this.responseText;
 /*              document.getElementById("osina").innerHTML = "ID="
                     + palautettu.id + " koko=" + palautettu.paino
                     + " Rotu=" + palautettu.laji; */
@@ -86,11 +86,11 @@ function muokkaakys() {
     //      xhttp.setRequestHeader("Content-type","text/plain");
     xhttp.setRequestHeader("Content-type", "application/json");
     //      xmlhttp.setRequestHeader("Data-type","json");
-    xhttp.send(jsonKysymys);
+    xhttp.send(jsonQuestion);
 }
 
-function poistakysymys() {
-	var del = document.getElementById("kysymyslomake").kid.value;
+function removeQuestion() {
+	var del = document.getElementById("questionForm").form_questionId.value;
 	var url="./vaalikonejparest/vaalikonejpaservice/poistakysymys/" + del;
     
 	var xhttp = new XMLHttpRequest();
