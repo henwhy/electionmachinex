@@ -26,26 +26,21 @@
     <servlet-name>Muokkaaehdokas</servlet-name>
     <servlet-class>vaalikone.Muokkaaehdokas</servlet-class>
   </servlet>
-    <servlet>
-  	<servlet-name>jersey-servlet</servlet-name>
-  	<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-  	<init-param>
-  		<param-name>jersey.config.server.provider.packages</param-name>
-  		<param-value>rest</param-value>
-  	</init-param>
+  <servlet>
+    <servlet-name>jersey-servlet</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>rest</param-value>
+    </init-param>
   </servlet>
-<!--   <servlet-mapping>
-    <servlet-name>Uusiehdokas</servlet-name>
-    <url-pattern>/Uusiehdokas</url-pattern>
-  </servlet-mapping> -->
-
   <servlet-mapping>
     <servlet-name>Vaalikone</servlet-name>
     <url-pattern>/Vaalikone</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>jersey-servlet</servlet-name>
-  	<url-pattern>/vaalikonejparest/*</url-pattern>
+    <servlet-name>jersey-servlet</servlet-name>
+    <url-pattern>/vaalikonejparest/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Poistaehdokas</servlet-name>

@@ -1,4 +1,4 @@
-package vaalikone;
+package electionmachine;
 import javax.persistence.*;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,7 +17,7 @@ import vaalikone.Enti;
  * Servlet implementation class newCandidate
  */
 @WebServlet(name="newCandidate", urlPatterns = {"/newCandidate"})
-public class Uusiehdokas extends HttpServlet {
+public class newCandidate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -25,7 +25,7 @@ public class Uusiehdokas extends HttpServlet {
      */
 
 	
-    public Uusiehdokas() {
+    public newCandidate() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,25 +39,25 @@ public class Uusiehdokas extends HttpServlet {
 		 EntityManager em = Enti.getEm();
 		 EntityTransaction entitytransaction = em.getTransaction();
 		 entitytransaction.begin();
-		 Ehdokkaat ehd = new Ehdokkaat();
-		 String s = request.getParameter("sukunimi");
-		 String e = request.getParameter("etunimi"); 
-		 String p = request.getParameter("puolue"); 
-		 String k = request.getParameter("kotipaikkakunta"); 
-		 int i = Integer.parseInt(request.getParameter("ika")); 
-		 String m = request.getParameter("miksi_eduskuntaan"); 
-		 String mi = request.getParameter("mita_asioita_haluat_edistaa"); 
-		 String a = request.getParameter("ammatti");
+		 Candidate cand = new Candidate();
+		 String s = request.getParameter("lastname");
+		 String e = request.getParameter("firstname"); 
+		 String p = request.getParameter("political_party"); 
+		 String k = request.getParameter("city"); 
+		 int i = Integer.parseInt(request.getParameter("age")); 
+		 String m = request.getParameter("why_question"); 
+		 String mi = request.getParameter("improve_question"); 
+		 String a = request.getParameter("profession");
        
-       ehd.setSukunimi(s);
-       ehd.setEtunimi(e);
-       ehd.setPuolue(p);
-       ehd.setKotipaikkakunta(k);
-       ehd.setIka(i);
-       ehd.setMiksiEduskuntaan(m);
-       ehd.setMitaAsioitaHaluatEdistaa(mi);
-       ehd.setAmmatti(a);
-       em.persist(ehd);
+       cand.setLastname(s);
+       cand.setFirstname(e);
+       cand.setPoliticalParty(p);
+       cand.setCity(k);
+       cand.setAge(i);
+       cand.setWhyQuestion(m);
+       cand.setImproveQuestion(mi);
+       cand.setProfession(a);
+       em.persist(cand);
        em.getTransaction().commit();
        response.sendRedirect(request.getContextPath()+"newCandidate.jsp");
 		 

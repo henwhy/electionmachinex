@@ -30,7 +30,7 @@ public class Kayttaja implements Serializable {
 //	private final ArrayList<Integer> vastaus = new ArrayList<>(20);
 	private ArrayList<Integer> vastaus = new ArrayList<>(20);
     ArrayList<Tuple<Integer, Integer>> pisteet = new ArrayList<>(20);
-//    private final static Logger logger = Logger.getLogger(Loki.class.getName());
+//    private final static Logger logger = Logger.getLogger(Log.class.getName());
 
     /**
      * Kayttaja-olioon tallennetaan vaalikoneen käyttäjän tietoja.

@@ -1,4 +1,4 @@
-package vaalikone;
+package electionmachine;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -14,14 +14,14 @@ import vaalikone.Uusi;
 /**
  * Servlet implementation class Muokkaaehdokas
  */
-@WebServlet(name = "Muokkaaehdokas", urlPatterns = "/Muokkaaehdokas.jsp")
-public class Muokkaaehdokas extends HttpServlet {
+@WebServlet(name = "editCandidate", urlPatterns = "/editCandidate.jsp")
+public class editCandidate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Muokkaaehdokas() {
+    public editCandidate() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,15 +46,15 @@ public class Muokkaaehdokas extends HttpServlet {
 		            // For the first parameter, 
 		            // get the data using request object 
 		            // sets the data to st pointer 
-		            st.setString(1, request.getParameter("ehdokas_id"));
-		            st.setString(2, request.getParameter("sukunimi"));
-		            st.setString(3, request.getParameter("etunimi")); 
-		            st.setString(4, request.getParameter("puolue")); 
-		            st.setString(5, request.getParameter("kotipaikkakunta")); 
-		            st.setString(6, request.getParameter("ika"));
-		            st.setString(7, request.getParameter("miksi_eduskuntaan")); 
-		            st.setString(8, request.getParameter("mita_asioita_haluat_edistaa")); 
-		            st.setString(9, request.getParameter("ammatti")); 
+		            st.setString(1, request.getParameter("candidate_id"));
+		            st.setString(2, request.getParameter("lastname"));
+		            st.setString(3, request.getParameter("firstname")); 
+		            st.setString(4, request.getParameter("political_party")); 
+		            st.setString(5, request.getParameter("city")); 
+		            st.setString(6, request.getParameter("age"));
+		            st.setString(7, request.getParameter("why_question")); 
+		            st.setString(8, request.getParameter("improve_question")); 
+		            st.setString(9, request.getParameter("profession")); 
 		  
 		            // Execute the insert command using executeUpdate() 
 		            // to make changes in database 

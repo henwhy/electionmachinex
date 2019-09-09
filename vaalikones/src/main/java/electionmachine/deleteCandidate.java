@@ -1,4 +1,4 @@
-package vaalikone;
+package electionmachine;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,13 +17,13 @@ import vaalikone.Uusi;
  * Servlet implementation class deleteCandidate
  */
 @WebServlet(name= "deleteCandidate", urlPatterns = "/deleteCandidate.jsp")
-public class Poistaehdokas extends HttpServlet {
+public class deleteCandidate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Poistaehdokas() {
+    public deleteCandidate() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,10 +41,10 @@ public class Poistaehdokas extends HttpServlet {
             // Create a SQL query to insert data into demo table 
             // demo table consists of two columns, so two '?' is used 
             PreparedStatement st = con 
-            .prepareStatement("DELETE FROM ehdokkaat WHERE ehdokas_ID =  ?"); 
+            .prepareStatement("DELETE FROM candidates WHERE candidate_id =  ?"); 
   
  
-            st.setString(1, request.getParameter("ehdokas_ID"));
+            st.setString(1, request.getParameter("candidate_id"));
   
             // Execute the insert command using executeUpdate() 
             // to make changes in database 
