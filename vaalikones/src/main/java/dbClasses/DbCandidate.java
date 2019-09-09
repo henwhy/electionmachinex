@@ -48,6 +48,44 @@ public class DbCandidate {
         return null;
     }
 
+    public static List<Candidate> getCandidateById(int id, Connection conn) {
+        try {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(
+                        "SELECT * FROM CANDIDATES WHERE CANDIDATE_ID=?"
+                );
+                pstmt.setInt(1, id);
+
+                ResultSet rs = pstmt.executeQuery();
+
+                ArrayList<Candidate> arrayList = new ArrayList<>();
+
+                while (rs.next()) {
+                    Candidate candidate = new Candidate(
+                            rs.getInt("CANDIDATE_ID"),
+                            rs.getString("LASTNAME"),
+                            rs.getString("FIRSTNAME"),
+                            rs.getString("POLITICAL_PARTY"),
+                            rs.getString("CITY"),
+                            rs.getInt("AGE"),
+                            rs.getString("WHY_QUESTION"),
+                            rs.getString("IMPROVE_QUESTION"),
+                            rs.getString("PROFESSION")
+                    );
+                    arrayList.add(candidate);
+                }
+
+                return arrayList;
+            } else {
+                System.out.println("No connection!!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static List<Candidate> getCandidates(Connection conn) {
         try {
             if (conn != null) {

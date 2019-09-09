@@ -52,6 +52,37 @@ public class DbQuestion {
         return null;
     }
 
+    public static List<Question> getQuestionById (int id, Connection conn) {
+        try {
+            if (conn != null) {
+                PreparedStatement pstmt = conn.prepareStatement(
+                        "SELECT * FROM QUESTIONS WHERE QUESTION_ID=?"
+                );
+                pstmt.setInt(1, id);
+
+                ResultSet rs = pstmt.executeQuery();
+
+                ArrayList<Question> arrayList = new ArrayList<>();
+
+                while (rs.next()) {
+                    Question question = new Question(
+                            rs.getInt("QUESTION_ID"),
+                            rs.getString("QUESTION")
+                    );
+                    arrayList.add(question);
+                }
+
+                return arrayList;
+            } else {
+                System.out.println("No connection!!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static List<Question> getQuestions (Connection conn) {
         try {
             if (conn != null) {
