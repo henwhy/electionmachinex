@@ -12,23 +12,23 @@ public class Answer implements Serializable {
     private static final long serialVersionUID = 1L;
 
     protected AnswerPK answerPk;
-    private Integer answerId;
+    private Integer answer;
     private String comment;
 
     public Answer() {
     }
 
-    public Answer(Integer answerId, String comment) {
-        this.answerId = answerId;
+    public Answer(Integer answer, String comment) {
+        this.answer = answer;
         this.comment = comment;
     }
 
-    public Integer getAnswerId() {
-        return answerId;
+    public Integer getAnswer() {
+        return answer;
     }
 
-    public void setAnswerId(Integer answerId) {
-        this.answerId = answerId;
+    public void setAnswer(Integer answer) {
+        this.answer = answer;
     }
 
     public String getComment() {
@@ -60,7 +60,7 @@ public class Answer implements Serializable {
     public String toString() {
         return "Answer{" +
                 "answerPk=" + answerPk +
-                ", answerId=" + answerId +
+                ", answerId=" + answer +
                 ", comment='" + comment + '\'' +
                 '}';
     }
@@ -86,7 +86,7 @@ public class Answer implements Serializable {
                 //getting last inserted id
                 ResultSet rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
-                    this.setAnswerId((int) rs.getLong(1));
+                    this.setAnswer((int) rs.getLong(1));
                 }
 
                 conn.close();
