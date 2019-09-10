@@ -1,115 +1,112 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Add new candidate</title>
+    <meta charset="UTF-8">
+    <title>Add new candidate</title>
+
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
 </head>
 <!--
 onload tapahtuu, kun koko sivu on ladattu, siis voidaan kutsua dokumentin lopussa olevaa funktiota
 <body onload='luepenantaulujaksoittain();'>
 -->
 <body>
-	<h1>Add new candidate</h1>
-		<form id="candidateform" action="#" onsubmit="return false;">
-			Lastname: <input type="text" name="lastname" id="form_lastname"><br>
-			Firstname: <input type="text" name="firstname" id="form_firstname"><br>
-			Political party: <input type="text" name="politicalparty" id="form_politicalparty"><br>
-			City: <input type="text" name="city" id="form_city"><br>
-			Age: <input type="text" name="age" id="form_age"><br> 
-			Why: <input type="text" name="whyquestion" id="form_whyquestion"><br> 
-			Improve: <input type="text" name="improvequestion" id="form_improvequestion"><br> 
-			Profession: <input type="text" name="profession" id="form_profession"><br>
-		</form>
-		<button onclick="sendCandidate();">Save information</button>
-		<button id="indexBtn">Home page</button>
+<h1>Add new candidate</h1>
+<form id="candidate-form" action="#" onsubmit="return false;">
+    Lastname: <input type="text" name="lastname" id="form_lastname"><br>
+    Firstname: <input type="text" name="firstname" id="form_firstname"><br>
+    Political party: <input type="text" name="politicalparty" id="form_politicalparty"><br>
+    City: <input type="text" name="city" id="form_city"><br>
+    Age: <input type="text" name="age" id="form_age"><br>
+    Why: <input type="text" name="whyquestion" id="form_whyquestion"><br>
+    Improve: <input type="text" name="improvequestion" id="form_improvequestion"><br>
+    Profession: <input type="text" name="profession" id="form_profession"><br>
+</form>
+
+<p id="success-text">
+</p>
+<button onclick="sendCandidate();">Save information</button>
+<button id="indexBtn">Home page</button>
 </body>
 <!--
 Javascript voi sijaita html-sivulla missä tahansa, kunhan muistaa, että muuttujien/aliohjelmien tulee olle esiteltynä enne käyttöä
 -->
 <script>
-	var btn = document.getElementById('indexBtn');
-	btn.addEventListener('click', function() {
-		document.location.href = 'index.html';
-	});
+    var btn = document.getElementById('indexBtn');
+    btn.addEventListener('click', function () {
+        document.location.href = 'index.html';
+    });
 
-	function getCandidate() {
+    function getCandidate() {
 
-		var xhttp = new XMLHttpRequest();
-		/* var xhttp = new XDomainRequest(); */
+        var xhttp = new XMLHttpRequest();
+        /* var xhttp = new XDomainRequest(); */
 
-		if ("withCredentials" in xhttp) {
-			xhttp
-					.open(
-							"GET",
-							"./vaalikonejparest/vaalikonejpaservice/addcandidate",
-							true);
-		} else if (typeof XDomainRequest != "undefined") {
-			xhttp = new XDomainRequest();
-			xhttp
-					.open(
-							"GET",
-							"./vaalikonejparest/vaalikonejpaservice/addcandidate",
-							true);
-		}
-		if (!xhttp) {
-			alert('CORS not supported!');
-			return;
-		}
+        if ("withCredentials" in xhttp) {
+            xhttp
+                .open(
+                    "GET",
+                    "./vaalikonejparest/vaalikonejpaservice/addcandidate",
+                    true);
+        } else if (typeof XDomainRequest != "undefined") {
+            xhttp = new XDomainRequest();
+            xhttp
+                .open(
+                    "GET",
+                    "./vaalikonejparest/vaalikonejpaservice/addcandidate",
+            true);
+    }
+    if (!xhttp) {
+        alert('CORS not supported!');
+        return;
+    }
 
-		xhttp.onload = function() {
-			document.getElementById("uusin").innerHTML = this.responseText;
-		};
+        xhttp.onload = function () {
+            document.getElementById("uusin").innerHTML = this.responseText;
+        };
 
-		/*      xhttp.onreadystatechange = function() {
-		 if (this.readyState == 4 && this.status == 200) {
-		 document.getElementById("uusin").innerHTML = this.responseText;
-		 }
-		 }; */
+        /*      xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+         document.getElementById("uusin").innerHTML = this.responseText;
+         }
+         }; */
 
-		/* xhttp.withCredentials = true; */
+        /* xhttp.withCredentials = true; */
 
-		/* xhttp.open("GET", "http://127.0.0.1:8080/riistajparest/riistajpaservice/riista", true); */
-		xhttp.send();
+        /* xhttp.open("GET", "http://127.0.0.1:8080/riistajparest/riistajpaservice/riista", true); */
+        xhttp.send();
 
-	}
+    }
 
-	function sendcandidate() {
+    function sendCandidate() {
 
-		var form = document.getElementById("candidateform")
-		var candidate = new Object();
-		candidate.lastname = form.form_lastname.value;
-		candidate.firstname = form.form_firstname.value;
-		candidate.politicalparty = form.form_politicalparty.value;
-		candidate.city = form.form_city.value;
-		candidate.age = form.form_age.value;
-		candidate.whyQuestion = form.form_whyquestion.value;
-		candidate.improveQuestion = form.form_improvequestion.value;
-		candidate.profession = form.form_profession.value;
+        let candidate = {};
+        candidate.candidateId = null;
+        candidate.lastName = $('#form_lastname').val();
+        candidate.firstName = $('#form_firstname').val();
+        candidate.politicalParty = $('#form_politicalparty').val();
+        candidate.city = $('#form_city').val();
+        candidate.age = $('#form_age').val();
+        candidate.whyQuestion = $('#form_whyquestion').val();
+        candidate.improveQuestion = $('#form_improvequestion').val();
+        candidate.profession = $('#form_profession').val();
 
-		var jsonCandidate = JSON.stringify(candidate);
-		/*      document.getElementById("yksia").innerHTML = jsonElain;
-		 document.getElementById("yksib").innerHTML = JSON.stringify(jsonElain); */
-
-		var xhttp = new XMLHttpRequest();
-
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				document.getElementById("debug").innerHTML = this.responseText;
-				var returned = JSON.parse(this.responseText);
-				/*              document.getElementById("osina").innerHTML = "ID="
-				 + palautettu.id + " koko=" + palautettu.paino
-				 + " Rotu=" + palautettu.laji; */
-			}
-		};
-
-		xhttp.open("POST",
-				"./vaalikonejparest/vaalikonejpaservice/lisaaehdokas", true);
-		//      xhttp.setRequestHeader("Content-type","text/plain");
-		xhttp.setRequestHeader("Content-type", "application/json");
-		//      xmlhttp.setRequestHeader("Data-type","json");
-		xhttp.send(jsonCandidate);
-
-	}
+        $.post({
+            url: "/rest/election-machine/ems/add-candidate",
+            data: JSON.stringify(candidate),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (row) {
+                $('#success-text').html('Candidate was successfully created!!!');
+                console.log(row);
+                // routine for emptying form
+                //$('#form_lastname').val('');
+            }
+        });
+    }
 </script>
 
 

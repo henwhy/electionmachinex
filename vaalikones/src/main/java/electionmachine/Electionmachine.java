@@ -139,7 +139,7 @@
                  List<Integer> candidateList = new ArrayList<>();
 
                  while (rs.next()) {
-                     candidateList.add(rs.getInt("QUESTION_ID"));
+                     candidateList.add(rs.getInt("CANDIDATE_ID"));
                  }
                  preparedStatement.close();
                  rs.close();
@@ -195,10 +195,10 @@
              //ohjaa tiedot tulosten esityssivulle
              request.setAttribute("allQuestions", allQuestions);
              request.setAttribute("usersAnswers", usr.getAnswerList());
-             request.setAttribute("BestCandidateAnswers", bestCandidateAnswers);
+             request.setAttribute("bestCandidatesAnswers", bestCandidateAnswers);
              request.setAttribute("bestCandidate", bestCandidate);
              request.setAttribute("points", tpl.get(number).points);
-             request.setAttribute("number", number);
+             request.setAttribute("positionnumber", number);
              request.getRequestDispatcher("/results.jsp")
                      .forward(request, response);
 
