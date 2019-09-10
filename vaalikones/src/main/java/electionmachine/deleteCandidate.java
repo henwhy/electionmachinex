@@ -3,7 +3,6 @@ package electionmachine;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import db.DbConnection;
+import dbClasses.DbCandidate;
 
 /**
  * Servlet implementation class deleteCandidate
@@ -37,26 +37,22 @@ public class deleteCandidate extends HttpServlet {
             //Connection con = OldConnection.initializeDatabase();
             Connection con = DbConnection.getConnection();
 
-            // Create a SQL query to insert data into demo table 
-            // demo table consists of two columns, so two '?' is used 
-            PreparedStatement st = con 
-            .prepareStatement("DELETE FROM candidates WHERE candidate_id =  ?"); 
-  
- 
-            st.setString(1, request.getParameter("candidate_id"));
-  
-            // Execute the insert command using executeUpdate() 
-            // to make changes in database 
-            st.executeUpdate();  
-            // Close all the connections 
-            st.close(); 
+            boolean isDeleted = DbCandidate.delete(Integer.parseInt(request.getParameter("candidate_id")), con);
+
             con.close(); 
-  
-            // Get a writer pointer  
-            // to display the succesful result 
-           PrintWriter out = response.getWriter(); 
-            out.println("<html><body><b>Successfully Deleted"
-                        + "</b></body></html>"); 
+
+            if (isDeleted) {
+                // Get a writer pointer
+                // to display the succesful result
+                PrintWriter out = response.getWriter();
+                out.println("<html><body><b>Successfully Deleted"
+                        + "</b></body></html>");
+            }
+            else {
+                PrintWriter out = response.getWriter();
+                out.println("<html><body><b>Delete unsuccessful"
+                        + "</b></body></html>");
+            }
        } 
         catch (Exception e) { 
             e.printStackTrace(); 

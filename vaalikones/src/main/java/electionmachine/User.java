@@ -19,31 +19,12 @@ import java.util.logging.Logger;
  */
 public class User implements Serializable {
 
-    /**
-	 * 
-	 */
-//	private static final long serialVersionUID = 3262098698622771486L;
-	/**
-	 * 
-	 */
-
-//	private final ArrayList<Integer> vastaus = new ArrayList<>(20);
 	private ArrayList<Integer> answer = new ArrayList<>(20);
     ArrayList<Tuple<Integer, Integer>> points = new ArrayList<>(20);
-//    private final static Logger logger = Logger.getLogger(Log.class.getName());
 
     /**
      * New information for User-object
      */
-//    public Kayttaja() {
-//
-//        //täytelläänhän listat valmiiksi
-//        for (int i = 0; i < 20; i++) {
-//            this.vastaus.add(0);
-//            this.pisteet.add(new Tuple<>(0, 0));
-//        }
-//
-//    }
 
     public void fillAnswersAndPoints() {
 
@@ -55,7 +36,6 @@ public class User implements Serializable {
 
     }
     /**
-     *
      * @return Integer-list of users answers.
      */
     public ArrayList<Integer> getAnswerList() {
@@ -65,7 +45,7 @@ public class User implements Serializable {
     /**
      * Hae pisteet-listasta yksittäiset pisteet
      *
-     * @param ehdokasId ehdokkaan id-numero
+     * @param candidateId ehdokkaan id-numero
      * @return pisteet ehdokkaaseen nähden
      */
     public Integer getPoints(int candidateId) {
@@ -79,8 +59,8 @@ public class User implements Serializable {
     /**
      * Aseta pisteet tiettyyn ehdokkaaseen nähden
      *
-     * @param ehdokasId ehdokkaan id-numero
-     * @param pisteet Arvo, mikä lisätään
+     * @param candidateId ehdokkaan id-numero
+     * @param points Arvo, mikä lisätään
      */
     public void addPoints(Integer candidateId, Integer points) {
         this.points.set(candidateId, new Tuple<>(candidateId, points));
@@ -100,7 +80,7 @@ public class User implements Serializable {
      * Lisää vastaus
      *
      * @param index kysymyksen numero
-     * @param vastaus vastauksen arvo
+     * @param answer vastauksen arvo
      */
     public void addAnswer(Integer index, Integer answer) {
     	if (this.answer.size()==0) {

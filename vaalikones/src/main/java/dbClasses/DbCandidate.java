@@ -16,23 +16,32 @@ public class DbCandidate {
     public static Candidate save(Candidate candidate, Connection conn) {
         try {
             if (conn != null) {
-                PreparedStatement pstmt = conn.prepareStatement(
-                        "insert into CANDIDATES(LASTNAME, FIRSTNAME, POLITICAL_PARTY, CITY, AGE, WHY_QUESTION, IMPROVE_QUESTION, PROFESSION) values(?,?,?,?,?,?,?,?)",
-                        Statement.RETURN_GENERATED_KEYS
-                );
-                pstmt.setString(1, candidate.getLastName());
-                pstmt.setString(2, candidate.getFirstName());
-                pstmt.setString(3, candidate.getPoliticalParty());
-                pstmt.setString(4, candidate.getCity());
-                pstmt.setInt(5, candidate.getAge());
-                pstmt.setString(6, candidate.getWhyQuestion());
-                pstmt.setString(7, candidate.getImproveQuestion());
-                pstmt.setString(8, candidate.getProfession());
+                PreparedStatement preparedStatement = null;
 
-                pstmt.executeUpdate();
+                if (candidate.getCandidateId() == null) {
+                    preparedStatement = conn.prepareStatement(
+                            "insert into CANDIDATES(LASTNAME, FIRSTNAME, POLITICAL_PARTY, CITY, AGE, WHY_QUESTION, IMPROVE_QUESTION, PROFESSION) values(?,?,?,?,?,?,?,?)",
+                            Statement.RETURN_GENERATED_KEYS
+                    );
+                } else {
+                    preparedStatement = conn.prepareStatement(
+                            "update CANDIDATES SET LASTNAME=?, FIRSTNAME=?, POLITICAL_PARTY=?, CITY=?, AGE=?, WHY_QUESTION=?, IMPROVE_QUESTION=?, PROFESSION=? WHERE CANDIDATE_ID=?"
+                    );
+                    preparedStatement.setInt(9, candidate.getCandidateId());
+                }
+                preparedStatement.setString(1, candidate.getLastName());
+                preparedStatement.setString(2, candidate.getFirstName());
+                preparedStatement.setString(3, candidate.getPoliticalParty());
+                preparedStatement.setString(4, candidate.getCity());
+                preparedStatement.setInt(5, candidate.getAge());
+                preparedStatement.setString(6, candidate.getWhyQuestion());
+                preparedStatement.setString(7, candidate.getImproveQuestion());
+                preparedStatement.setString(8, candidate.getProfession());
+
+                preparedStatement.executeUpdate();
 
                 //getting last inserted id
-                ResultSet rs = pstmt.getGeneratedKeys();
+                ResultSet rs = preparedStatement.getGeneratedKeys();
                 if (rs.next()) {
                     candidate.setCandidateId((int) rs.getLong(1));
                 }
