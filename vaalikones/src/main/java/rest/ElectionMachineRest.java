@@ -1,18 +1,11 @@
 package rest;
 
-import javax.ws.rs.GET;
-
-import javax.ws.rs.POST;
-
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
 import classes.Candidate;
 import classes.Question;
@@ -50,7 +43,7 @@ public class ElectionMachineRest {
         return candidate;
     }
 
-    @POST
+    @DELETE
     @Path("/remove-candidate/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public boolean removeCandidate(@PathParam("id") int id) throws SQLException {

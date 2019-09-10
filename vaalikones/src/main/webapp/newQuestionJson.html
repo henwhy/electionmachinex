@@ -29,7 +29,7 @@ function sendQuestion() {
 
 	let question = {};
 	question.questionId = null;
-	question.question = $('#form_newquestion').val();
+	question.question = $('#form_newquestion')[0].value;
 
 	$.post({
 		url: "/rest/election-machine/ems/add-question",
@@ -41,7 +41,7 @@ function sendQuestion() {
 			console.log(row);
 			// routine for emptying form
 			//$('#form_lastname').val('');
-		}
+		},
 	});
 }
 
