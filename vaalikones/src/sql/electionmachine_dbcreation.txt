@@ -7,16 +7,16 @@
 
 -- create a user and user's password
 -- credentials pena/kukkuu has all privileges to all all tables of database electionmachine (exept grant privilege)
-grant all on electionmachine.* to pena@localhost identified by 'kukkuu';
+grant all on election-machine.* to root@localhost identified by '';
 
 -- if there exists database vaalikone, drop it
-drop database if exists electionmachine;
+drop database if exists election-machine;
 
 -- create database vaalikone (just dropped)
-create database electionmachine;
+create database election-machine;
 
 -- use the database
-use electionmachine;
+use election-machine;
 
 -- these drops are not needed now (we droppped the whole database), but as an example how to drop a table
 DROP TABLE if exists CANDIDATES;
@@ -25,7 +25,7 @@ DROP TABLE if exists ANSWERS;
 
 -- create a table candidates (mysql does not bother the case of letters - in this case)
 CREATE TABLE CANDIDATES (
-   CANDIDATE_ID INTEGER NOT NULL,
+   CANDIDATE_ID INTEGER NOT NULL auto_increment,
    LASTNAME VARCHAR(25),
    FIRSTNAME VARCHAR(25),
    POLITICAL_PARTY VARCHAR(50),
@@ -39,7 +39,7 @@ CREATE TABLE CANDIDATES (
 
 -- create a table questions
 CREATE TABLE QUESTIONS (
-   QUESTION_ID INTEGER NOT NULL,
+   QUESTION_ID INTEGER NOT NULL auto_increment,
    QUESTION VARCHAR(100),
    PRIMARY KEY (QUESTION_ID)
 );
