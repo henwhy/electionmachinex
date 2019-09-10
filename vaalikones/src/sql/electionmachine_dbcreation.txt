@@ -7,13 +7,13 @@
 
 -- create a user and user's password
 -- credentials pena/kukkuu has all privileges to all all tables of database electionmachine (exept grant privilege)
-grant all on election-machine.* to root@localhost identified by '';
+grant all on `election-machine`.* to root@localhost identified by '';
 
 -- if there exists database vaalikone, drop it
-drop database if exists election-machine;
+drop database if exists `election-machine`;
 
 -- create database vaalikone (just dropped)
-create database election-machine;
+create database `election-machine`;
 
 -- use the database
 use election-machine;
