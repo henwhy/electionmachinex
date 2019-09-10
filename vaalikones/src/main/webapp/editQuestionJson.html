@@ -3,20 +3,25 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Edit question</title>
+	<script
+			src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			crossorigin="anonymous">
+	</script>
 </head>
 <body>
 	<div id="container">
-	<h1>Edit question</h1>
+	<h1>Editing questions</h1>
 	
 	<p id="debug">Debug here</p>
 	
 	<form id="questionForm" onsubmit="return false;">
-		QustionId: <input type="text" name="kid" id="form_questionId"><br>
+		QuestionId: <input type="text" name="kid" id="form_questionId"><br>
 		Edit question:<br> 
 		<textarea name="form_edit" rows="4" cols="50" id="form_question" placeholder="Choose the question ID above, and edit it here"></textarea>
 	</form>
 	
-	<button onclick="editquestion();">Save changes</button>
+	<button onclick="SendEditQuestion();">Save changes</button>
 	
 	<button onclick="removequestion();">Remove question</button>
 	
@@ -60,16 +65,23 @@ function readAll(){
 }
 readAll();
 
-function editQuestions() {
-  	 
-	var form=document.getElementById("questionForm");
-    var question = new Object();
-    question.questionId = form.form_questionId.value;
-    question.question = form.form_question.value;
+function SendEditQuestion() {
+	let question = {};
+	question.questionId = $('#form_questionId').val;
+	question.question = $('#form_question')[0].value;
 
-    var jsonQuestion = JSON.stringify(question);
-/*      document.getElementById("yksia").innerHTML = jsonElain;
-    document.getElementById("yksib").innerHTML = JSON.stringify(jsonElain); */
+	$.post({
+		url: "/rest/election-machine/ems/edit-question",
+		data: JSON.stringify(question),
+		dataType: 'json',
+		contentType: 'application/json',
+		success: function (row) {
+			$('#success-text').html('Question was successfully edited!!!');
+			console.log(row);
+			// routine for emptying form
+			//$('#form_lastname').val('');
+		},
+	});
 
     var xhttp = new XMLHttpRequest();
 
