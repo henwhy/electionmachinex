@@ -136,7 +136,7 @@
 
     function SendEditQuestion() {
         let question = {};
-        question.questionId = $('#form_questionId').val;
+        question.questionId = $('#form_questionId').val();
         question.question = $('#form_question')[0].value;
 
         $.post({
