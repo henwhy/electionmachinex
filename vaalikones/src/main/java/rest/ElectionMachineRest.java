@@ -43,8 +43,6 @@ public class ElectionMachineRest {
 
         conn.close();
 
-        String info = "EhdokasID " + id + " on nyt poistettu.";
-
         return isDeleted;
     }
 
