@@ -1,242 +1,202 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Edit candidate</title>
+    <meta charset="UTF-8">
+    <title>Edit candidate</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-	crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
 </head>
 <body>
-	<h1>Edit candidate</h1>
+<h1>Edit candidate</h1>
 
-	<table bgcolor="#FFFFFF" style="">
-		<thead>
-		<tr>
-   			<td>Id</td>
-		    <td>Firstname</td>
-		    <td>Lastname</td>
-		    <td>Political party</td>
-		    <td>City</td>
-		    <td>Age</td>
-		    <td>Why</td>
-		    <td>What</td>
-		    <td>Profession</td>
-		</tr>
-		</thead>
-		<tbody id="tbody"></tbody>
-	</table>
+<table bgcolor="#FFFFFF" style="">
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>Firstname</td>
+        <td>Lastname</td>
+        <td>Political party</td>
+        <td>City</td>
+        <td>Age</td>
+        <td>Why</td>
+        <td>What</td>
+        <td>Profession</td>
+    </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+</table>
 
 <script>
 
 
-$(document).ready(function () {
-    //refresh button
-    $("#refresh").on("click", function () {
+    $(document).ready(function () {
+        //refresh button
+        $("#refresh").on("click", function () {
+            refreshTable();
+        });
+        //form submit handler
+        $("#animal-rest-form").submit(function (e) {
+            e.preventDefault();
+            saveAnimal();
+        });
+        //when site is ready, query for data
         refreshTable();
     });
-    //form submit handler
-    $("#animal-rest-form").submit(function (e) {
-        e.preventDefault();
-        saveAnimal();
-    });
-    //when site is ready, query for data
-    refreshTable();
-});
 
-function editCandidate(row) {
-	console.log(row);
-	
+    function editCandidate(row) {
+        console.log(row);
 
-	form[0].candidateid.value = row.candidateid
-	
-	
-}
-function test (candidateId)  {
-	var form = $("#candidateForm")[0]
-	console.log(form.candidateid.value = "lol")
-	console.log()
-	
-	//form.candidateid.value = event.target.firstName
-}
 
-   
-function refreshTable() {
-    $("#tbody").html("");
-    $.get({
-        url: "/rest/election-machine/ems/get-candidates",
-        success: function (data) {
-        	
-            //called when successful
-            data.forEach(function (row) {
-            	//console.log(row);
-      
-                $('#tbody').append("<tr data-candidate-id='" + row.candidateId + "'>" +
-                    "<td>" + row.candidateId + "</td>" +
-                    "<td>" + row.firstName + "</td>" +
-                    "<td>" + row.lastName + "</td>" +
-                    "<td>" + row.politicalParty + "</td>" +
-                    "<td>" + row.city + "</td>" +
-                    "<td>" + row.age + "</td>" +
-                    "<td>" + row.whyQuestion + "</td>" +
-                    "<td>" + row.improveQuestion + "</td>" +
-                    "<td>" + row.profession + "</td>" +
-                    "<td><button onclick='editCandidate(" + row.candidateId + ")'>Edit</button><td>" +
-                    "</tr>");
+        form[0].candidateid.value = row.candidateid
 
-     
-          	   
-            });
-        },
-    })
-}
+
+    }
+
+    function test(candidateId) {
+        var form = $("#candidateForm")[0]
+        console.log(form.candidateid.value = "lol")
+        console.log()
+
+        //form.candidateid.value = event.target.firstName
+    }
+
+
+    function refreshTable() {
+        $("#tbody").html("");
+        $.get({
+            url: "/rest/election-machine/ems/get-candidates",
+            success: function (data) {
+
+                //called when successful
+                data.forEach(function (row) {
+                    //console.log(row);
+
+                    $('#tbody').append("<tr data-candidate-id='" + row.candidateId + "'>" +
+                        "<td>" + row.candidateId + "</td>" +
+                        "<td>" + row.firstName + "</td>" +
+                        "<td>" + row.lastName + "</td>" +
+                        "<td>" + row.politicalParty + "</td>" +
+                        "<td>" + row.city + "</td>" +
+                        "<td>" + row.age + "</td>" +
+                        "<td>" + row.whyQuestion + "</td>" +
+                        "<td>" + row.improveQuestion + "</td>" +
+                        "<td>" + row.profession + "</td>" +
+                        "<td><button onclick='editCandidate(" + row.candidateId + ")'>Edit</button><td>" +
+                        "<td><button onclick='removeCandidate(" + row.candidateId + ")'>Delete</button><td>" +
+                        "</tr>");
+
+
+                });
+            }
+        })
+    }
 
 </script>
 
-	<form id="candidateForm" onsubmit="return false;">
-		CandidateId: <input type="text" name="candidateid" id="form_candidateid" readonly><br> 
-		Lastname: <input type="text" name="lastname" id="form_lastname"><br>
-		Firstname: <input type="text" name="firstname" id="form_firstname"><br>
-		Political party: <input type="text" name="politicalparty" id="form_politicalparty"><br>
-		Home city: <input type="text" name="city" id="form_city"><br>
-		Age: <input type="text" name="age" id="form_age"><br> 
-		Why: <input type="text" name="whyquestion" id="form_whyquestion"><br>
-		What: <input type="text" name="improvequestion" id="form_improvequestion"><br> 
-		Profession: <input type="text" name="profession" id="form_profession"><br>
-	</form>
+<form id="candidateForm" onsubmit="return false;">
+    CandidateId: <input type="text" name="candidateid" id="form_candidateid" readonly><br>
+    Lastname: <input type="text" name="lastname" id="form_lastname"><br>
+    Firstname: <input type="text" name="firstname" id="form_firstname"><br>
+    Political party: <input type="text" name="politicalparty" id="form_politicalparty"><br>
+    Home city: <input type="text" name="city" id="form_city"><br>
+    Age: <input type="text" name="age" id="form_age"><br>
+    Why: <input type="text" name="whyquestion" id="form_whyquestion"><br>
+    What: <input type="text" name="improvequestion" id="form_improvequestion"><br>
+    Profession: <input type="text" name="profession" id="form_profession"><br>
+</form>
 
-	<button onclick="saveCandidate();">Save new information</button>
+<button onclick="saveCandidate();">Save new information</button>
 
-	<button onclick="removeCandidate();">Remove candidate</button>
+<button onclick="removeCandidate();">Remove candidate</button>
 
-	<button id="indexBtn">Home page</button>
+<button id="indexBtn">Home page</button>
 
-	<script>
-		var btn = document.getElementById('indexBtn');
-		btn.addEventListener('click', function() {
-			document.location.href = 'index.html';
-		});
+<script>
+    var btn = document.getElementById('indexBtn');
+    btn.addEventListener('click', function () {
+        document.location.href = 'index.html';
+    });
 
-		function removeCandidate() {
-			var del = document.getElementById("candidateForm").form_candidateid.value;
-			var url = "./vaalikonejparest/vaalikonejpaservice/poistaehdokas/"
-					+ del;
+    function removeCandidate(candidateId) {
 
-			var xhttp = new XMLHttpRequest();
+        $.ajax({
+            url: "/rest/election-machine/ems/remove-candidate/" + candidateId,
+            type: "DELETE",
+            success: function (row) {
+                $('tr[data-candidate-id = ' + candidateId + ']').remove();
+            },
+        });
+    }
 
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					document.getElementById("debug").innerHTML = this.responseText;
-				}
-			};
+    function editCandidate(candidateId) {
 
-			xhttp.open("POST", url, true);
-			xhttp.send();
-			setTimeout(function() {
-				show()
-			}, 1000);
+        window.scrollTo(0, document.body.scrollHeight);
 
-		}
+        let tableRow = $('tr[data-candidate-id= ' + candidateId + ' ]')
+        console.log(tableRow);
 
-		function editCandidate(candidateId) {
-			
-			window.scrollTo(0,document.body.scrollHeight);
+        $('#form_candidateid').val(tableRow.children().get(0).innerText);
+        $('#form_firstname').val(tableRow.children().get(1).innerText);
+        $('#form_lastname').val(tableRow.children().get(2).innerText);
+        $('#form_politicalparty').val(tableRow.children().get(3).innerText);
+        $('#form_city').val(tableRow.children().get(4).innerText);
+        $('#form_age').val(tableRow.children().get(5).innerText);
+        $('#form_whyquestion').val(tableRow.children().get(6).innerText);
+        $('#form_improvequestion').val(tableRow.children().get(7).innerText);
+        $('#form_profession').val(tableRow.children().get(8).innerText);
+        //console.log(tableRow.children().get(9));
 
-			let tableRow = $('tr[data-candidate-id= '+ candidateId +' ]')
-			console.log(tableRow);
-			
-			$('#form_candidateid').val(tableRow.children().get(0).innerText);
-			$('#form_firstname').val(tableRow.children().get(1).innerText);
-			$('#form_lastname').val(tableRow.children().get(2).innerText);
-			$('#form_politicalparty').val(tableRow.children().get(3).innerText);
-			$('#form_city').val(tableRow.children().get(4).innerText);
-			$('#form_age').val(tableRow.children().get(5).innerText);
-			$('#form_whyquestion').val(tableRow.children().get(6).innerText);
-			$('#form_improvequestion').val(tableRow.children().get(7).innerText);
-			$('#form_profession').val(tableRow.children().get(8).innerText);
-			//console.log(tableRow.children().get(9));
-			
-		}
-		
-		function saveCandidate() {
+    }
 
-	        let candidate = {};
-	        candidate.candidateId = $('#form_candidateid').val();
-	        candidate.firstName = $('#form_firstname').val();
-	        candidate.lastName = $('#form_lastname').val();
-	        candidate.politicalParty = $('#form_politicalparty').val();
-	        candidate.city = $('#form_city').val();
-	        candidate.age = $('#form_age').val();
-	        candidate.whyQuestion = $('#form_whyquestion').val();
-	        candidate.improveQuestion = $('#form_improvequestion').val();
-	        candidate.profession = $('#form_profession').val();
+    function saveCandidate() {
 
-	        $.post({
-	            url: "/rest/election-machine/ems/edit-candidate",
-	            data: JSON.stringify(candidate),
-	            dataType: 'json',
-	            contentType: 'application/json',
-	            success: function (row) {
-	                $('#success-text').html('Candidate was successfully created!!!');
-	                console.log(row);
-	                
-	                // routine for emptying form
-	                $('#form_candidateid').val('');
- 	                $('#form_lastname').val('');
-	                $('#form_firstname').val('');
-	                $('#form_politicalparty').val('');
-	                $('#form_city').val('');
-	                $('#form_age').val('');
-	                $('#form_whyquestion').val('');
-	                $('#form_improvequestion').val('');
-	                $('#form_profession').val('');
-	                
-	                
-	                //TODO: Refreshing the newly edited row without refreshing the whole page.
-	    			//let tableRow = $('tr[data-candidate-id= '+ candidateId +' ]')
-	    			//tableRow.children().get(8).innerText
-	            }
-	        });
-	    }
-	</script>
+        let candidate = {};
+        candidate.candidateId = $('#form_candidateid').val();
+        candidate.firstName = $('#form_firstname').val();
+        candidate.lastName = $('#form_lastname').val();
+        candidate.politicalParty = $('#form_politicalparty').val();
+        candidate.city = $('#form_city').val();
+        candidate.age = $('#form_age').val();
+        candidate.whyQuestion = $('#form_whyquestion').val();
+        candidate.improveQuestion = $('#form_improvequestion').val();
+        candidate.profession = $('#form_profession').val();
+
+        $.post({
+            url: "/rest/election-machine/ems/edit-candidate",
+            data: JSON.stringify(candidate),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (row) {
+                $('#success-text').html('Candidate was successfully created!!!');
+                console.log(row);
+
+                // routine for emptying form
+                $('#form_candidateid').val('');
+                $('#form_lastname').val('');
+                $('#form_firstname').val('');
+                $('#form_politicalparty').val('');
+                $('#form_city').val('');
+                $('#form_age').val('');
+                $('#form_whyquestion').val('');
+                $('#form_improvequestion').val('');
+                $('#form_profession').val('');
 
 
-	<table id="table">
+                //TODO: Refreshing the newly edited row without refreshing the whole page.
+                //let tableRow = $('tr[data-candidate-id= '+ candidateId +' ]')
+                //tableRow.children().get(8).innerText
+            }
+        });
+    }
+</script>
 
-	</table>
 
-	<script>
-		function readAll() {
-			var xhttp = new XMLHttpRequest();
+<table id="table">
 
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var returned = JSON.parse(this.responseText);
-					var z = "";
-					for (i = 0; i < returned.length; i++) {
-						var returnTable = returned[i];
-						z = z + "<tr><td>" + returnTable.candidateId + "<td>"
-								+ returnTable.firstname + "<td>"
-								+ returnTable.lastname;
-					}
-					document.getElementById("table").innerHTML = z;
-
-				}
-			};
-
-			xhttp.open("GET",
-					"./vaalikonejparest/vaalikonejpaservice/etsiehdokkaat",
-					true);
-			//      xhttp.setRequestHeader("Content-type","text/plain");
-			xhttp.setRequestHeader("Content-type", "application/json");
-			//      xmlhttp.setRequestHeader("Data-type","json");
-			xhttp.send();
-
-		}
-		readAll();
-	</script>
+</table>
 </body>
 </html>
