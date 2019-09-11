@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
+
 import classes.Candidate;
 import classes.Question;
 
@@ -42,8 +43,6 @@ public class ElectionMachineRest {
 
         conn.close();
 
-        String info = "EhdokasID " + id + " on nyt poistettu.";
-
         return isDeleted;
     }
 
@@ -61,7 +60,7 @@ public class ElectionMachineRest {
         return candidate;
     }
 
-    @POST
+    @DELETE
     @Path("/remove-question/{id}")
     @Consumes(MediaType.TEXT_PLAIN)
     public boolean removeQuestion(@PathParam("id") int questionId) throws SQLException {
