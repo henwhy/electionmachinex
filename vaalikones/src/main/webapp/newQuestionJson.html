@@ -19,6 +19,8 @@
 		<button onclick="sendQuestion();">Save question</button>
 		
 		<button id="indexBtn">Home page</button>
+		
+		<p id="success-text"></p>
 <script>
 
 var btn = document.getElementById('indexBtn');
@@ -40,8 +42,10 @@ function sendQuestion() {
 		success: function (row) {
 			$('#success-text').html('Question was successfully created!!!');
 			console.log(row);
-			// routine for emptying form
-			//$('#form_lastname').val('');
+
+		      $('#form_newquestion').val('');
+
+			
 		},
 	});
 }
