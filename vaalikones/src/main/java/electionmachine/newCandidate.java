@@ -41,7 +41,7 @@ public class newCandidate extends HttpServlet {
 
         candidate = DbCandidate.save(candidate, conn);
 
-        response.sendRedirect(request.getContextPath() + "newCandidate.jsp");
+        response.sendRedirect(request.getContextPath() + "index.html");
     }
 
     /**
