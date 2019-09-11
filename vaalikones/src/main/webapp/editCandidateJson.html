@@ -47,24 +47,6 @@
         refreshTable();
     });
 
-    function editCandidate(row) {
-        console.log(row);
-
-
-        form[0].candidateid.value = row.candidateid
-
-
-    }
-
-    function test(candidateId) {
-        var form = $("#candidateForm")[0]
-        console.log(form.candidateid.value = "lol")
-        console.log()
-
-        //form.candidateid.value = event.target.firstName
-    }
-
-
     function refreshTable() {
         $("#tbody").html("");
         $.get({
@@ -88,8 +70,6 @@
                         "<td><button onclick='editCandidate(" + row.candidateId + ")'>Edit</button><td>" +
                         "<td><button onclick='removeCandidate(" + row.candidateId + ")'>Delete</button><td>" +
                         "</tr>");
-
-
                 });
             }
         })
@@ -110,8 +90,6 @@
 </form>
 
 <button onclick="saveCandidate();">Save new information</button>
-
-<button onclick="removeCandidate();">Remove candidate</button>
 
 <button id="indexBtn">Home page</button>
 
@@ -185,15 +163,11 @@
                 $('#form_improvequestion').val('');
                 $('#form_profession').val('');
 
-
-                //TODO: Refreshing the newly edited row without refreshing the whole page.
-                //let tableRow = $('tr[data-candidate-id= '+ candidateId +' ]')
-                //tableRow.children().get(8).innerText
+                refreshTable();
             }
         });
     }
 </script>
-
 
 <table id="table">
 

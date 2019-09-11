@@ -49,7 +49,6 @@
 
                     //called when successful
                     data.forEach(function (row) {
-                        //console.log(row);
 
                         $('#tbody').append("<tr data-question-id='" + row.questionId + "'>" +
                             "<td>" + row.questionId + "</td>" +
@@ -57,8 +56,6 @@
                             "<td><button onclick='editQuestion(" + row.questionId + ")'>Edit</button><td>" +
                             "<td><button onclick='SendRemoveQuestion(" + row.questionId + ")'>Delete</button><td>" +
                             "</tr>");
-
-
                     });
                 },
             })
@@ -75,8 +72,6 @@
 
     <button onclick="SendEditQuestion();">Save changes</button>
 
-    <button onclick="SendRemoveQuestion();">Remove question</button>
-
     <button id="indexBtn">Home page</button>
 
     <table id="table">
@@ -88,7 +83,6 @@
     function editQuestion(questionId) {
 
         console.log(questionId);
-
         window.scrollTo(0, document.body.scrollHeight);
 
         let tableRow = $('tr[data-question-id= ' + questionId + ' ]')
@@ -100,12 +94,11 @@
 
     }
 
-    function saveQuestion() {
+    function SendEditQuestion() {
 
         let question = {};
         question.questionId = $('#form_questionId').val();
         question.question = $('#form_question').val();
-
 
         $.post({
             url: "/rest/election-machine/ems/edit-question",
@@ -120,10 +113,7 @@
                 $('#form_questionId').val('');
                 $('#form_question').val('');
 
-
-                //TODO: Refreshing the newly edited row without refreshing the whole page.
-                //let tableRow = $('tr[data-candidate-id= '+ candidateId +' ]')
-                //tableRow.children().get(8).innerText
+                refreshTable();
             }
         });
     }
@@ -133,27 +123,6 @@
     btn.addEventListener('click', function () {
         document.location.href = 'index.html';
     });
-
-    function SendEditQuestion() {
-        let question = {};
-        question.questionId = $('#form_questionId').val();
-        question.question = $('#form_question')[0].value;
-
-        $.post({
-            url: "/rest/election-machine/ems/edit-question",
-            data: JSON.stringify(question),
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (row) {
-                $('#success-text').html(
-                    'Question was successfully edited!!!');
-                console.log(row);
-                // routine for emptying form
-                //$('#form_lastname').val('');
-            }
-        });
-
-    }
 
     function SendRemoveQuestion(questionId) {
         $.ajax({
