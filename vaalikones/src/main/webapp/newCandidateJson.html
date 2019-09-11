@@ -34,6 +34,8 @@ onload tapahtuu, kun koko sivu on ladattu, siis voidaan kutsua dokumentin lopuss
 <!--
 Javascript voi sijaita html-sivulla missä tahansa, kunhan muistaa, että muuttujien/aliohjelmien tulee olle esiteltynä enne käyttöä
 -->
+
+
 <script>
     var btn = document.getElementById('indexBtn');
     btn.addEventListener('click', function () {
@@ -103,7 +105,14 @@ Javascript voi sijaita html-sivulla missä tahansa, kunhan muistaa, että muuttu
                 $('#success-text').html('Candidate was successfully created!!!');
                 console.log(row);
                 // routine for emptying form
-                //$('#form_lastname').val('');
+                $('#form_lastname').val('');
+                $('#form_firstname').val('');
+                $('#form_politicalparty').val('');
+                $('#form_city').val('');
+                $('#form_age').val('');
+                $('#form_whyquestion').val('');
+                $('#form_improvequestion').val('');
+                $('#form_profession').val('');
             }
         });
     }
