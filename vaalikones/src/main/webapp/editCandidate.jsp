@@ -2,7 +2,6 @@
 <%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@page import="java.util.*,vaalikone.Vaalikone,persist.*"%>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.Connection" %>
@@ -78,7 +77,7 @@
 	 	<br/><br/><br/>  
     	<br/> 
         <p>Lastname:</p>  
-        <input type="text" name="lastname"/> 
+        <input type="text" name="lastname"/> x
         <br/><br/><br/>
         <br/> 
         <p>Firstname:</p>  

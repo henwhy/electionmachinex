@@ -15,8 +15,7 @@ public class Question implements Serializable {
     private Integer questionId;
     private String question;
 
-    public Question(Integer questionId) {
-        this.questionId = questionId;
+    public Question() {
     }
 
     public Question(Integer questionId, String question) {

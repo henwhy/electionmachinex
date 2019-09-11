@@ -3,10 +3,15 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Adding a question</title>
+	<script
+			src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			crossorigin="anonymous">
+	</script>
 </head>
 <body>
 	<h1>Add a new question</h1>
-		<form id="question" action="#" onsubmit="return false;">
+		<form id="question-form" action="#" onsubmit="return false;">
 			New question:<br> 
 			<textarea name="newquestion" id="form_newquestion" rows="4" cols="50" placeholder="Write the new question here"></textarea>
 		</form>
@@ -23,30 +28,22 @@ btn.addEventListener('click', function() {
 
 function sendQuestion() {
 
-	var form = document.getElementById("question")
-	var question = new Object();
-	question.question = form.form_newquestion.value;
-	
-	var jsonQuestion = JSON.stringify(question);
-	/*      document.getElementById("yksia").innerHTML = jsonElain;
-	 document.getElementById("yksib").innerHTML = JSON.stringify(jsonElain); */
+	let question = {};
+	question.questionId = null;
+	question.question = $('#form_newquestion')[0].value;
 
-	var xhttp = new XMLHttpRequest();
-
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			document.getElementById("debug").innerHTML = this.responseText;
-			var returned = JSON.parse(this.responseText);
-
-		}
-	};
-
-	xhttp.open("POST",
-			"./vaalikonejparest/vaalikonejpaservice/lisaakysymys", true);
-	//      xhttp.setRequestHeader("Content-type","text/plain");
-	xhttp.setRequestHeader("Content-type", "application/json");
-	//      xmlhttp.setRequestHeader("Data-type","json");
-	xhttp.send(jsonQuestion);
+	$.post({
+		url: "/rest/election-machine/ems/add-question",
+		data: JSON.stringify(question),
+		dataType: 'json',
+		contentType: 'application/json',
+		success: function (row) {
+			$('#success-text').html('Question was successfully created!!!');
+			console.log(row);
+			// routine for emptying form
+			//$('#form_lastname').val('');
+		},
+	});
 }
 
 </script>

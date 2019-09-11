@@ -1,18 +1,11 @@
 package rest;
 
-import javax.ws.rs.GET;
-
-import javax.ws.rs.POST;
-
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
 import classes.Candidate;
 import classes.Question;
@@ -27,6 +20,7 @@ public class ElectionMachineRest {
     @POST
     @Path("/add-candidate")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Candidate addCandidate(Candidate candidate) throws SQLException {
         Connection conn = DbConnection.getConnection();
 
@@ -37,22 +31,9 @@ public class ElectionMachineRest {
         return candidate;
     }
 
-    @POST
-    @Path("/edit-candidate")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Candidate editCandidate(Candidate candidate) throws SQLException {
-        Connection conn = DbConnection.getConnection();
-
-        candidate = DbCandidate.save(candidate, conn);
-
-        conn.close();
-
-        return candidate;
-    }
-
-    @POST
+    @DELETE
     @Path("/remove-candidate/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public boolean removeCandidate(@PathParam("id") int id) throws SQLException {
 
         Connection conn = DbConnection.getConnection();
@@ -67,8 +48,22 @@ public class ElectionMachineRest {
     }
 
     @POST
-    @Path("/remove-question/{id}")
+    @Path("/edit-candidate")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    public Candidate editCandidate(Candidate candidate) throws SQLException {
+        Connection conn = DbConnection.getConnection();
+
+        candidate = DbCandidate.save(candidate, conn);
+
+        conn.close();
+
+        return candidate;
+    }
+
+    @POST
+    @Path("/remove-question/{id}")
+    @Consumes(MediaType.TEXT_PLAIN)
     public boolean removeQuestion(@PathParam("id") int questionId) throws SQLException {
         Connection conn = DbConnection.getConnection();
 
@@ -82,7 +77,6 @@ public class ElectionMachineRest {
     @GET
     @Path("/get-candidates")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
     public List<Candidate> getCandidates() throws SQLException {
         Connection conn = DbConnection.getConnection();
 
@@ -96,6 +90,7 @@ public class ElectionMachineRest {
     @POST
     @Path("/add-question")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Question addQuestion(Question question) throws SQLException {
         Connection conn = DbConnection.getConnection();
 
@@ -109,6 +104,7 @@ public class ElectionMachineRest {
     @POST
     @Path("/edit-question")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Question editQuestion(Question question) throws Exception {
         Connection conn = DbConnection.getConnection();
 
@@ -122,7 +118,6 @@ public class ElectionMachineRest {
     @GET
     @Path("/get-questions")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
     public List<Question> getQuestions() throws SQLException {
         Connection conn = DbConnection.getConnection();
 
