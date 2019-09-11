@@ -2,124 +2,224 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Edit question </title>
-	<script
-			src="https://code.jquery.com/jquery-3.4.1.min.js"
-			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-			crossorigin="anonymous">
-	</script>
+<title>Edit question</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	crossorigin="anonymous">
+	
+</script>
 </head>
 <body>
 	<div id="container">
-	<h1>Editing questions</h1>
+		<h1>Editing questions</h1>
+
+		<table bgcolor="#FFFFFF" style="">
+			<thead>
+				<tr>
+					<td>Id</td>
+					<td>Question</td>
+				</tr>
+			</thead>
+			<tbody id="tbody"></tbody>
+		</table>
+
+		<script>
+			$(document).ready(function() {
+				//refresh button
+				$("#refresh").on("click", function() {
+					refreshTable();
+				});
+				//form submit handler
+				$("#animal-rest-form").submit(function(e) {
+					e.preventDefault();
+					//saveAnimal();
+				});
+				//when site is ready, query for data
+				refreshTable();
+			});
+			
+			function refreshTable() {
+			    $("#tbody").html("");
+			    $.get({
+			        url: "/rest/election-machine/ems/get-questions",
+			        success: function (data) {
+			        	
+			            //called when successful
+			            data.forEach(function (row) {
+			            	//console.log(row);
+			      
+			                $('#tbody').append("<tr data-question-id='" + row.questionId + "'>" +
+			                    "<td>" + row.questionId + "</td>" +
+			                    "<td>" + row.question + "</td>" +
+			                    "<td><button onclick='editQuestion(" + row.questionId + ")'>Edit</button><td>" +
+			                    "</tr>");
+
+			     
+			          	   
+			            });
+			        },
+			    })
+			}
+			
+		</script>
+
+		<p id="debug">Debug here</p>
+
+		<form id="question-form" onsubmit="return false;">
+			QuestionId: <input type="text" name="kid" id="form_questionId" readonly><br>
+			Edit question:<br>
+			<textarea name="form_edit" rows="4" cols="50" id="form_question"
+				placeholder="Choose the question ID above, and edit it here"></textarea>
+		</form>
+
+		<button onclick="saveQuestion();">Save changes</button>
+
+		<button onclick="removequestion();">Remove question</button>
+
+		<button id="indexBtn">Home page</button>
+
+		<table id="table">
+
+		</table>
+	</div>
+	<script>
 	
-	<p id="debug">Debug here</p>
+	function editQuestion(questionId) {
+		
+		console.log(questionId);
+		
+		window.scrollTo(0,document.body.scrollHeight);
+
+		let tableRow = $('tr[data-question-id= '+ questionId +' ]')
+		console.log(tableRow);
+		
+		$('#form_questionId').val(tableRow.children().get(0).innerText);
+		$('#form_question').val(tableRow.children().get(1).innerText);
+		//console.log(tableRow.children().get(9));
+		
+	}
 	
-	<form id="question-form" onsubmit="return false;">
-		QuestionId: <input type="text" name="kid" id="form_questionId"><br>
-		Edit question:<br> 
-		<textarea name="form_edit" rows="4" cols="50" id="form_question" placeholder="Choose the question ID above, and edit it here"></textarea>
-	</form>
+	function saveQuestion() {
+
+        let question = {};
+        question.questionId = $('#form_questionId').val();
+        question.question = $('#form_question').val();
+
+
+        $.post({
+            url: "/rest/election-machine/ems/edit-question",
+            data: JSON.stringify(question),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (row) {
+                $('#success-text').html('Question was successfully created!!!');
+                console.log(row);
+                
+                // routine for emptying form
+                 $('#form_questionId').val('');
+	            $('#form_question').val('');
+
+                
+                
+                //TODO: Refreshing the newly edited row without refreshing the whole page.
+    			//let tableRow = $('tr[data-candidate-id= '+ candidateId +' ]')
+    			//tableRow.children().get(8).innerText
+            }
+        });
+    }
 	
-	<button onclick="SendEditQuestion();">Save changes</button>
 	
-	<button onclick="removequestion();">Remove question</button>
-	
-	<button id="indexBtn">Home page</button>
-	
-<table id="table">
+		var btn = document.getElementById('indexBtn');
+		btn.addEventListener('click', function() {
+			document.location.href = 'index.html';
+		});
 
-</table>
-</div>
-<script>
+		//function readAll(){
+		//	var xhttp = new XMLHttpRequest();
+		//
+		//     xhttp.onreadystatechange = function() {
+		//		 if (this.readyState == 4 && this.status == 200) {
+		//			 var returned = JSON.parse(this.responseText);
+		//			 var z="";
+		//			 for (i=0;i<returned.length;i++){
+		//				 var returnedTable=returned[i];
+		//				 z=z+"<tr><td>"+y.questionId+"<td>"+returnedTable.question;
+		//			 }
+		//			document.getElementById("table").innerHTML = z;
+		//
+		//		 }
+		//	 };
 
-var btn = document.getElementById('indexBtn');
-btn.addEventListener('click', function() {
-	 document.location.href = 'index.html';
-});
+		//	xhttp.open("GET",
+		//			"./vaalikonejparest/vaalikonejpaservice/etsikysymykset",
+		//			true);
+		//      xhttp.setRequestHeader("Content-type","text/plain");
+		//	xhttp.setRequestHeader("Content-type", "application/json");
+		//      xmlhttp.setRequestHeader("Data-type","json");
+		//	xhttp.send();
 
-//function readAll(){
-//	var xhttp = new XMLHttpRequest();
-//
-//     xhttp.onreadystatechange = function() {
-//		 if (this.readyState == 4 && this.status == 200) {
-//			 var returned = JSON.parse(this.responseText);
-//			 var z="";
-//			 for (i=0;i<returned.length;i++){
-//				 var returnedTable=returned[i];
-//				 z=z+"<tr><td>"+y.questionId+"<td>"+returnedTable.question;
-//			 }
-//			document.getElementById("table").innerHTML = z;
-//
-//		 }
-//	 };
+		//}
+		//readAll();
 
-//	xhttp.open("GET",
-//			"./vaalikonejparest/vaalikonejpaservice/etsikysymykset",
-//			true);
-	//      xhttp.setRequestHeader("Content-type","text/plain");
-//	xhttp.setRequestHeader("Content-type", "application/json");
-	//      xmlhttp.setRequestHeader("Data-type","json");
-//	xhttp.send();
-	
-//}
-//readAll();
+		function SendEditQuestion() {
+			let question = {};
+			question.questionId = $('#form_questionId').val;
+			question.question = $('#form_question')[0].value;
 
-function SendEditQuestion() {
-	let question = {};
-	question.questionId = $('#form_questionId').val;
-	question.question = $('#form_question')[0].value;
+			$.post({
+				url : "/rest/election-machine/ems/edit-question",
+				data : JSON.stringify(question),
+				dataType : 'json',
+				contentType : 'application/json',
+				success : function(row) {
+					$('#success-text').html(
+							'Question was successfully edited!!!');
+					console.log(row);
+					// routine for emptying form
+					//$('#form_lastname').val('');
+				},
+			});
 
-	$.post({
-		url: "/rest/election-machine/ems/edit-question",
-		data: JSON.stringify(question),
-		dataType: 'json',
-		contentType: 'application/json',
-		success: function (row) {
-			$('#success-text').html('Question was successfully edited!!!');
-			console.log(row);
-			// routine for emptying form
-			//$('#form_lastname').val('');
-		},
-	});
+			//    var xhttp = new XMLHttpRequest();
 
-//    var xhttp = new XMLHttpRequest();
+			//     xhttp.onreadystatechange = function() {
+			//        if (this.readyState == 4 && this.status == 200) {
+			//            document.getElementById("ihavenoideawhatimdoing").innerHTML = this.responseText;
+			/*              document.getElementById("osina").innerHTML = "ID="
+			 + palautettu.id + " koko=" + palautettu.paino
+			 + " Rotu=" + palautettu.laji; */
+			//        }
+			//    };
+			//    xhttp.open("POST", "./vaalikonejparest/vaalikonejpaservice/muokkaakysymys", true);
+			//      xhttp.setRequestHeader("Content-type","text/plain");
+			//    xhttp.setRequestHeader("Content-type", "application/json");
+			//      xmlhttp.setRequestHeader("Data-type","json");
+			//    xhttp.send(jsonQuestion);
+		}
 
-//     xhttp.onreadystatechange = function() {
-//        if (this.readyState == 4 && this.status == 200) {
-//            document.getElementById("ihavenoideawhatimdoing").innerHTML = this.responseText;
-/*              document.getElementById("osina").innerHTML = "ID="
-                    + palautettu.id + " koko=" + palautettu.paino
-                    + " Rotu=" + palautettu.laji; */
-//        }
-//    };
+		function removeQuestion() {
+			var del = document.getElementById("questionForm").form_questionId.value;
+			var url = "./vaalikonejparest/vaalikonejpaservice/poistakysymys/"
+					+ del;
 
-//    xhttp.open("POST", "./vaalikonejparest/vaalikonejpaservice/muokkaakysymys", true);
-    //      xhttp.setRequestHeader("Content-type","text/plain");
-//    xhttp.setRequestHeader("Content-type", "application/json");
-    //      xmlhttp.setRequestHeader("Data-type","json");
-//    xhttp.send(jsonQuestion);
-}
+			var xhttp = new XMLHttpRequest();
 
-function removeQuestion() {
-	var del = document.getElementById("questionForm").form_questionId.value;
-	var url="./vaalikonejparest/vaalikonejpaservice/poistakysymys/" + del;
-    
-	var xhttp = new XMLHttpRequest();
-	 
-    xhttp.onreadystatechange = function() {
-       if (this.readyState == 4 && this.status == 200) {
-           document.getElementById("debug").innerHTML = this.responseText;
-       }
-   }; 
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("debug").innerHTML = this.responseText;
+				}
+			};
 
-//   xhttp.open("POST", url, true);
-//   xhttp.send();
-//   setTimeout(function(){
-//	   show()
-//   }, 1000);
+			//   xhttp.open("POST", url, true);
+			//   xhttp.send();
+			//   setTimeout(function(){
+			//	   show()
+			//   }, 1000);
 
-}
-</script>
+		}
+	</script>
 </body>
 </html>
